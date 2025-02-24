@@ -1,30 +1,49 @@
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      // 1 user có thể là 1 admin
+      User.hasOne(models.Admin, {
+        foreignKey: "user_id",
+      });
+      // 1 user có thể là 1 member
+      User.hasOne(models.Member, {
+        foreignKey: "user_id",
+      });
+      // 1 user có thể có nhiều payment (nếu user thanh toán)
+      User.hasMany(models.Payment, {
+        foreignKey: "user_id",
+      });
+      // Ngoài ra, user có thể liên kết với BookCategory qua assigned_by
     }
   }
   User.init(
     {
-      user_id: DataTypes.INTEGER,
+      user_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      username: DataTypes.STRING,
+      password: DataTypes.STRING,
+      first_name: DataTypes.STRING,
+      last_name: DataTypes.STRING,
+      gender: DataTypes.ENUM("male", "female", "other"),
+      role: DataTypes.STRING,
       email: DataTypes.STRING,
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      gender: DataTypes.BOOLEAN,
       phone: DataTypes.STRING,
       address: DataTypes.STRING,
-      role: DataTypes.STRING,
+      is_active: DataTypes.BOOLEAN,
+      create_at: DataTypes.DATE,
+      updated_at: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "User",
+      tableName: "Users",
+      timestamps: false, // vì ta đang dùng create_at, updated_at custom
     }
   );
   return User;
