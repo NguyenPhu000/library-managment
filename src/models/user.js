@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       first_name: DataTypes.STRING,
       last_name: DataTypes.STRING,
-      gender: DataTypes.ENUM("male", "female", "other"),
+      gender: DataTypes.BOOLEAN,
       role: DataTypes.STRING,
       email: DataTypes.STRING,
       phone: DataTypes.STRING,
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "User",
       tableName: "Users",
-      timestamps: false, // vì ta đang dùng create_at, updated_at custom
+      timestamps: false,
     }
   );
   return User;
