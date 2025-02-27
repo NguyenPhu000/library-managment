@@ -6,7 +6,7 @@ module.exports = {
       {
         username: "adminUser",
         password: "123456", // Nên mã hóa trong thực tế
-        role: "ADMIN",
+        role: "admin",
         first_name: "Admin",
         last_name: "User",
         gender: "male",

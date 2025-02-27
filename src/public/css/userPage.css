@@ -1,0 +1,154 @@
+/* ---------------------
+   Global Styles 
+---------------------- */
+body {
+  background-color: #f0f2f5;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container-fluid {
+  padding: 2rem;
+}
+/* Container để căn nút sang phải (nếu muốn) */
+.create-user-container {
+  text-align: left;
+  margin: 10px 20px;
+}
+/* ---------------------
+   Heading 
+---------------------- */
+h2 {
+  color: #343a40;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ---------------------
+   Card Styles 
+---------------------- */
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+}
+
+/* ---------------------
+   Table Styles 
+---------------------- */
+.table-responsive {
+  max-height: 70vh; /* Giới hạn chiều cao bảng, cho phép scroll */
+}
+
+/* Sticky Header */
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 2;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* ---------------------
+   Badge Styles 
+---------------------- */
+.badge-danger {
+  background-color: #e74c3c;
+  font-size: 90%;
+}
+
+.badge-info {
+  background-color: #3498db;
+  font-size: 90%;
+}
+
+/* ---------------------
+   Action Buttons 
+---------------------- */
+.btn-group .btn {
+  flex: 1;
+}
+
+.btn-edit {
+  border: 1px solid #3498db;
+  color: #3498db;
+  background: transparent;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn-edit:hover {
+  background: #3498db;
+  color: #fff;
+}
+
+.btn-delete {
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  background: transparent;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn-delete:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+/* ---------------------
+   Close Button (Modal) 
+---------------------- */
+.close {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 0.5;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none; /* Tránh một số hiệu ứng mặc định trên iOS */
+}
+
+.close span {
+  display: inline-block;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #000; /* Màu của dấu “X” */
+}
+
+.close:hover,
+.close:focus {
+  opacity: 0.75;
+}
+/* ---------------------
+   Create User Button 
+   ---------------------- */
+
+/* Primary Button (Create User) */
+
+.btn.btn-primary {
+  display: inline-block;
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer; /* Con trỏ chuột dạng nút */
+}
+
+/* Hover Effect for Primary Button */
+.btn.btn-primary:hover {
+  background: linear-gradient(45deg, #0056b3, #003f7f);
+  transform: translateY(-3px);
+}

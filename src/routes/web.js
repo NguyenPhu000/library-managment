@@ -5,11 +5,18 @@ import userController from "../controllers/userController";
 let router = express.Router();
 
 let initWebRoutes = (app) => {
+  // home route
   router.get("/", homeController.getHomePage);
-  router.get("/user", userController.getUser);
-  router.get("/create_user", userController.getCreateUser);
-  router.post("/post_create_user", userController.postCreateUser);
+
+  // user route
+  // router.get("/get_user", userController.getUser);
+  router.get("/user", userController.getCreateUser);
+  router.post("/create-user", userController.postCreateUser);
+  router.get("/list-user", userController.getDisplayUser);
+  router.post("/put-user", userController.putUser);
+  router.get("/delete-user", userController.deleteUser);
 
   return app.use("/", router);
 };
+
 module.exports = initWebRoutes;

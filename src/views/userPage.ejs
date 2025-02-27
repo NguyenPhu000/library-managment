@@ -2,23 +2,108 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Latest compiled and minified CSS -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>User Management Table</title>
+
+    <!-- Bootstrap 4 CSS -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     />
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <title>CREATE USERS</title>
+    <!-- Link đến file CSS tách riêng -->
+    <link rel="stylesheet" href="/css/userPage.css" />
   </head>
   <body>
-    <div class="container">
-      <H1>User List</H1>
-      <div class="row">
-        <div class="col-12 mt-3"></div>
+    <div class="container-fluid">
+      <h2 class="text-center mb-4">User Management</h2>
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th>No.</th>
+                  <th>Username</th>
+                  <th>Role</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% dataTable.forEach(function(user, index) { %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td><strong><%= user.username %></strong></td>
+                  <td>
+                    <span
+                      class="badge badge-pill <%= user.role === 'admin' ? 'badge-danger' : 'badge-info' %>"
+                    >
+                      <%= user.role %>
+                    </span>
+                  </td>
+                  <td><%= user.first_name %></td>
+                  <td><%= user.last_name %></td>
+                  <td><%= user.gender == 1 ? 'Male' : 'Female' %></td>
+                  <td>
+                    <a href="mailto:<%= user.email %>"><%= user.email %></a>
+                  </td>
+                  <td><%= user.phone %></td>
+                  <td><%= user.address %></td>
+                  <td>
+                    <div class="btn-group btn-group-sm d-flex" role="group">
+                      <!-- Chỉ truyền id qua data-id -->
+                      <a
+                        href="/edit-user?id=<%= user.user_id%>"
+                        class="btn btn-edit"
+                        data-toggle="modal"
+                        data-target="#editUserModal"
+                        data-id="<%= user.user_id %>"
+                        data-username="<%= user.username %>"
+                        data-first_name="<%= user.first_name %>"
+                        data-last_name="<%= user.last_name %>"
+                        data-phone="<%= user.phone %>"
+                        data-role="<%= user.role %>"
+                        data-gender="<%= user.gender %>"
+                        data-address="<%= user.address %>"
+                        data-email="<%= user.email %>"
+                      >
+                        Edit
+                      </a>
+                      <a
+                        href="/delete-user?id=<%= user.user_id%>"
+                        class="btn btn-delete"
+                      >
+                        Delete
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!--  Include modal partial -->
+    <div><%- include('partials/editUser') %></div>
+
+    <!-- jQuery (phiên bản đầy đủ) & Bootstrap 4 JS & dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
+    <!-- Link đến file JS riêng -->
+    <script src="/js/editUser.js"></script>
   </body>
 </html>
