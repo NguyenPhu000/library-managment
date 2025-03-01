@@ -5,17 +5,6 @@ let getCreateUser = (req, res) => {
   res.render("createUserPage");
 };
 
-let postCreateUser = async (req, res) => {
-  try {
-    let message = await userService.createNewUser(req.body); //lay cac tham so tu form
-    console.log(message);
-    return res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send("An error occurred while creating the user.");
-  }
-};
-
 const getDisplayUser = async (req, res) => {
   try {
     const data = await userService.getAllUser();
@@ -25,11 +14,21 @@ const getDisplayUser = async (req, res) => {
   }
 };
 
+let postCreateUser = async (req, res) => {
+  try {
+    let message = await userService.createNewUser(req.body); //lay cac tham so tu form
+    console.log(message);
+    return res.render("homePage.ejs");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while creating the user.");
+  }
+};
 let putUser = async (req, res) => {
   try {
     const data = req.body;
     await userService.updateUserData(data);
-    res.redirect("/");
+    return res.render("homePage.ejs");
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -39,12 +38,29 @@ let deleteUser = async (req, res) => {
     let id = req.query.id;
     if (id) {
       await userService.deleteUserById(id);
-      res.redirect("/");
+
+      return res.render("homePage.ejs");
     } else {
       res.status(400).send("User ID is required");
     }
   } catch (error) {
     res.status(500).send(error.message);
+  }
+};
+
+let toggleUserActiveStatus = async (req, res) => {
+  try {
+    const { id } = req.body; // Nhận ID từ body
+    if (!id)
+      return res
+        .status(400)
+        .json({ success: false, message: "User ID is required" });
+
+    let newStatus = await userService.toggleUserActiveStatus(id); // Gọi service
+    res.json({ success: true, is_active: newStatus }); // Trả về trạng thái mới
+  } catch (error) {
+    console.error("Lỗi khi cập nhật trạng thái:", error);
+    res.status(500).json({ success: false, message: "Lỗi server" });
   }
 };
 module.exports = {
@@ -53,4 +69,5 @@ module.exports = {
   getDisplayUser: getDisplayUser,
   putUser: putUser,
   deleteUser: deleteUser,
+  toggleUserActiveStatus: toggleUserActiveStatus,
 };

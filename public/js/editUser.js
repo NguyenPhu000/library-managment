@@ -1,4 +1,3 @@
-// edit button
 $(document).ready(function () {
   $("#editUserModal").on("show.bs.modal", function (event) {
     var button = $(event.relatedTarget);
@@ -6,21 +5,26 @@ $(document).ready(function () {
     var username = button.data("username");
     var firstName = button.data("first_name");
     var lastName = button.data("last_name");
+    var email = button.data("email");
     var phone = button.data("phone");
+    var address = button.data("address");
     var role = button.data("role");
     var gender = button.data("gender");
-    var address = button.data("address");
-    var email = button.data("email");
 
     var modal = $(this);
     modal.find("#editUserId").val(userId);
     modal.find("#editUsername").val(username);
     modal.find("#editFirstName").val(firstName);
     modal.find("#editLastName").val(lastName);
+    modal.find("#editEmail").val(email);
     modal.find("#editPhone").val(phone);
+    modal.find("#editAddress").val(address);
     modal.find("#editRole").val(role);
     modal.find("#editGender").val(gender);
-    modal.find("#editAddress").val(address);
-    modal.find("#editEmail").val(email);
+  });
+
+  $("#editUserForm").on("submit", function (event) {
+    event.preventDefault();
+    // Add your AJAX call here to submit the form data
   });
 });

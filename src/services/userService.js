@@ -114,11 +114,24 @@ let deleteUserById = async (id) => {
     }
   });
 };
+let toggleUserActiveStatus = async (id) => {
+  try {
+    let user = await db.User.findByPk(id);
+    if (!user) throw new Error("User not found");
 
+    let newStatus = !user.is_active;
+    await user.update({ is_active: newStatus });
+
+    return newStatus;
+  } catch (error) {
+    throw new Error("Error toggling user status: " + error.message);
+  }
+};
 module.exports = {
   createNewUser: createNewUser,
   getAllUser: getAllUser,
   getUserInfoById: getUserInfoById,
   updateUserData: updateUserData,
   deleteUserById: deleteUserById,
+  toggleUserActiveStatus: toggleUserActiveStatus,
 };
