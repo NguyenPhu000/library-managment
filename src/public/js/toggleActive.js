@@ -10,7 +10,7 @@ $(document).on("click", ".toggle-active", function (e) {
   }
 
   $.ajax({
-    url: "/toggle-user-active",
+    url: "/users/toggle-user-active",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({ id: userId }),
@@ -21,7 +21,7 @@ $(document).on("click", ".toggle-active", function (e) {
           .removeClass("bg-info bg-danger")
           .addClass(isActive ? "bg-info" : "bg-danger")
           .text(isActive ? "On" : "Off")
-          .fadeTo(200, 1); // Giữ hiệu ứng mượt mà
+          .fadeTo(200, 1); 
       } else {
         alert("Cập nhật trạng thái thất bại!");
       }

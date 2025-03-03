@@ -1,20 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>Create User</title>
-
-    <!-- Bootstrap 4 CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo Người Dùng Mới</title>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
-
-    <!-- Google Fonts (Poppins) -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
@@ -22,167 +15,187 @@
     <link rel="stylesheet" href="/css/createUser.css" />
   </head>
   <body>
-    <!-- Nút mở popup Create User -->
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#createUserModal"
-    >
-      Create New User
-    </button>
+    <div class="container my-4 text-center">
+      <button
+        type="button"
+        class="btn btn-primary btn-primary-custom"
+        data-bs-toggle="modal"
+        data-bs-target="#createUserModal"
+      >
+        Tạo Người Dùng Mới
+      </button>
+    </div>
 
-    <!-- Modal Create User -->
     <div
       class="modal fade"
       id="createUserModal"
       tabindex="-1"
-      role="dialog"
       aria-labelledby="createUserModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content p-4 custom-modal">
-          <!-- Modal Header -->
-          <div class="modal-header border-0">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content custom-modal">
+          <div class="modal-header modal-header-custom border-0">
             <h3
-              class="modal-title w-100 font-weight-bold"
+              class="modal-title modal-title-custom w-100 text-center"
               id="createUserModalLabel"
             >
-              Create new User
+              Tạo Người Dùng Mới
             </h3>
             <button
               type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Đóng"
+            ></button>
           </div>
 
-          <!-- Modal Body -->
-          <div class="modal-body">
-            <form action="/create-user" method="POST">
-              <!-- Username & Password -->
-              <div class="form-group">
-                <label for="username">Username</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="username"
-                  name="username"
-                  placeholder="Nhập username"
-                />
-              </div>
-              <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  name="password"
-                  placeholder="Mật khẩu"
-                />
+          <div class="modal-body modal-body-custom">
+            <form action="/users/create" method="POST">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label
+                      for="username"
+                      class="form-label col-form-label-custom"
+                      >Tên Người Dùng</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control form-control-custom"
+                      id="username"
+                      name="username"
+                      placeholder="Nhập tên người dùng"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="password"
+                      class="form-label col-form-label-custom"
+                      >Mật Khẩu</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control form-control-custom"
+                      id="password"
+                      name="password"
+                      placeholder="Nhập mật khẩu"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="firstName"
+                      class="form-label col-form-label-custom"
+                      >Họ</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control form-control-custom"
+                      id="firstName"
+                      name="first_name"
+                      placeholder="Nhập họ"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="lastName"
+                      class="form-label col-form-label-custom"
+                      >Tên</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control form-control-custom"
+                      id="lastName"
+                      name="last_name"
+                      placeholder="Nhập tên"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="email" class="form-label col-form-label-custom"
+                      >Email</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control form-control-custom"
+                      id="email"
+                      name="email"
+                      placeholder="Nhập email"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="phone" class="form-label col-form-label-custom"
+                      >Số Điện Thoại</label
+                    >
+                    <input
+                      type="tel"
+                      class="form-control form-control-custom"
+                      id="phone"
+                      name="phone"
+                      placeholder="Nhập số điện thoại"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="role" class="form-label col-form-label-custom"
+                      >Vai Trò</label
+                    >
+                    <select
+                      id="role"
+                      class="form-select form-select-custom"
+                      name="role"
+                    >
+                      <option value="">Chọn vai trò...</option>
+                      <option value="admin">Admin</option>
+                      <option value="member">Thành Viên</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="gender" class="form-label col-form-label-custom"
+                      >Giới Tính</label
+                    >
+                    <select
+                      id="gender"
+                      class="form-select form-select-custom"
+                      name="gender"
+                    >
+                      <option value="">Chọn giới tính...</option>
+                      <option value="1">Nam</option>
+                      <option value="0">Nữ</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="address"
+                      class="form-label col-form-label-custom"
+                      >Địa Chỉ</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control form-control-custom"
+                      id="address"
+                      name="address"
+                      placeholder="Nhập địa chỉ"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <!-- Personal Details -->
-              <hr class="my-4" />
-              <h6 class="mb-3 font-weight-bold text-secondary">
-                Personal Details
-              </h6>
-
-              <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="firstName"
-                  name="first_name"
-                  placeholder="Nhập họ"
-                />
+              <div class="d-grid mt-3">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-primary-custom"
+                >
+                  Tạo Người Dùng
+                </button>
               </div>
-              <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="lastName"
-                  name="last_name"
-                  placeholder="Nhập tên"
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                />
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone</label>
-                <input
-                  type="tel"
-                  class="form-control"
-                  id="phone"
-                  name="phone"
-                  placeholder="Phone"
-                />
-              </div>
-
-              <!-- Other Information -->
-              <hr class="my-4" />
-              <h6 class="mb-3 font-weight-bold text-secondary">
-                Other Information
-              </h6>
-
-              <div class="form-group">
-                <label for="role">Role</label>
-                <select id="role" class="form-control" name="role">
-                  <option value="">Chọn...</option>
-                  <option value="admin">Admin</option>
-                  <option value="member">Member</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="gender">Gender</label>
-                <select id="gender" class="form-control" name="gender">
-                  <option value="">Chọn...</option>
-                  <option value="1">Nam</option>
-                  <option value="0">Nữ</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="address">Address</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="address"
-                  name="address"
-                  placeholder="Nhập địa chỉ"
-                />
-              </div>
-
-              <!-- Nút Create -->
-              <button type="submit" class="btn btn-primary btn-block mt-4">
-                Create User
-              </button>
             </form>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Bootstrap 4 JS & dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
-    <script src="../js/editUser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/editUser.js"></script>
   </body>
 </html>

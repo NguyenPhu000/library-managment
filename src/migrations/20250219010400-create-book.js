@@ -44,6 +44,11 @@ module.exports = {
         type: Sequelize.STRING(100),
         defaultValue: "AVAILABLE",
       },
+      cover_image: {
+        type: Sequelize.JSON,
+        allowNull: true,
+        defaultValue: [],
+      },
       created_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

@@ -31,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
       total_copies: DataTypes.INTEGER,
       available_copies: DataTypes.INTEGER,
       status: DataTypes.STRING,
+
+      cover_image: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+      },
       created_at: DataTypes.DATE,
       updated_at: DataTypes.DATE,
     },

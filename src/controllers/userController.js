@@ -2,7 +2,7 @@ import userService from "../services/userService";
 const db = require("../models");
 
 let getCreateUser = (req, res) => {
-  res.render("createUserPage");
+  res.render("partials/createUser.ejs");
 };
 
 const getDisplayUser = async (req, res) => {
@@ -18,17 +18,17 @@ let postCreateUser = async (req, res) => {
   try {
     let message = await userService.createNewUser(req.body); //lay cac tham so tu form
     console.log(message);
-    return res.render("homePage.ejs");
+    return res.redirect("/");
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred while creating the user.");
   }
 };
-let putUser = async (req, res) => {
+let updateUser = async (req, res) => {
   try {
     const data = req.body;
     await userService.updateUserData(data);
-    return res.render("homePage.ejs");
+    return res.redirect("/");
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -39,7 +39,7 @@ let deleteUser = async (req, res) => {
     if (id) {
       await userService.deleteUserById(id);
 
-      return res.render("homePage.ejs");
+      return res.redirect("/");
     } else {
       res.status(400).send("User ID is required");
     }
@@ -67,7 +67,7 @@ module.exports = {
   getCreateUser: getCreateUser,
   postCreateUser: postCreateUser,
   getDisplayUser: getDisplayUser,
-  putUser: putUser,
+  updateUser: updateUser,
   deleteUser: deleteUser,
   toggleUserActiveStatus: toggleUserActiveStatus,
 };

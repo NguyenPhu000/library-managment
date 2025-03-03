@@ -1,0 +1,179 @@
+<!-- Nút mở modal Tạo Sách Mới -->
+<div class="container my-5 text-center">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#createBookModal"
+  >
+    Tạo Sách Mới
+  </button>
+</div>
+
+<!-- Modal Tạo Sách Mới -->
+<div
+  class="modal fade"
+  id="createBookModal"
+  tabindex="-1"
+  aria-labelledby="createBookModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content p-4 custom-modal">
+      <div class="modal-header border-0 pb-0">
+        <h3 class="modal-title fw-bold" id="createBookModalLabel">
+          Tạo Sách Mới
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          action="/books/create"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <div class="row">
+            <!-- Cột bên trái -->
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="isbn" class="form-label">ISBN</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="isbn"
+                  name="isbn"
+                  placeholder="Nhập ISBN"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="title" class="form-label">Tiêu Đề</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                  placeholder="Nhập tiêu đề sách"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="author" class="form-label">Tác Giả</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="author"
+                  name="author"
+                  placeholder="Nhập tên tác giả"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="publication_year" class="form-label"
+                  >Năm Xuất Bản</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="publication_year"
+                  name="publication_year"
+                  placeholder="Nhập năm xuất bản"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="publisher" class="form-label">Nhà Xuất Bản</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="publisher"
+                  name="publisher"
+                  placeholder="Nhập tên nhà xuất bản"
+                />
+              </div>
+            </div>
+            <!-- Cột bên phải -->
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="total_copies" class="form-label"
+                  >Tổng Số Lượng</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="total_copies"
+                  name="total_copies"
+                  placeholder="Nhập tổng số lượng sách"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="available_copies" class="form-label"
+                  >Số Lượng Có Sẵn</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="available_copies"
+                  name="available_copies"
+                  placeholder="Nhập số lượng sách có sẵn"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="status" class="form-label">Trạng Thái</label>
+                <select id="status" class="form-select" name="status">
+                  <option value="">Chọn trạng thái...</option>
+                  <option value="available">Còn Sách</option>
+                  <option value="unavailable">Hết Sách</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="category" class="form-label">Danh Mục</label>
+                <select id="category" class="form-select" name="category">
+                  <option value="">Chọn danh mục...</option>
+                  <option value="fiction">Tiểu thuyết</option>
+                  <option value="science">Khoa học</option>
+                  <option value="history">Lịch sử</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="cover_image" class="form-label">Ảnh Bìa</label>
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="cover_image"
+                      name="cover_image"
+                      onchange="showImage(this)"
+                    />
+                  </div>
+                  <div class="col-md-6 text-end image-preview-container">
+                    <img id="image-pro" class="img-fluid" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Tạo Sách</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script hiển thị ảnh bìa khi chọn file -->
+<script>
+  function showImage(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById("image-pro").src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>

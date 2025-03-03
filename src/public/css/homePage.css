@@ -1,0 +1,239 @@
+/* ---------------------------
+   Custom Properties (Variables)
+---------------------------- */
+:root {
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 80px;
+  --primary-color: #2c5f2d;
+  --secondary-color: #97bc62;
+  --accent-color: #ffce00;
+  --text-color: #e0e0e0;
+  --text-light: #ffffff;
+  --bg-main: #f4f6f9;
+  --bg-sidebar: linear-gradient(
+    180deg,
+    #1e1e1e 0%,
+    #2b2b2b 100%
+  ); /* Màu đen xám hiện đại */
+  --bg-card: #ffffff;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.07);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.15);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --transition: all 0.3s ease;
+}
+
+/* ---------------------------
+   Global Styles
+---------------------------- */
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-main);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* ---------------------------
+   Sidebar Styling (Màu Đen Xám)
+---------------------------- */
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--bg-sidebar);
+  padding: 2rem 1.5rem;
+  color: var(--text-light);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  transition: var(--transition);
+}
+
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+  padding: 2rem 0.5rem;
+}
+
+.sidebar .library-brand {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.sidebar .library-brand h3 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.sidebar .library-brand small {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.sidebar.collapsed .library-brand h3,
+.sidebar.collapsed .library-brand small,
+.sidebar.collapsed .nav .nav-text {
+  display: none;
+}
+
+/* Navigation Menu */
+.nav {
+  margin-top: 2rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.875rem 1.25rem;
+  color: var(--text-light) !important;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  margin: 0.5rem 0;
+  opacity: 0.9;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
+  opacity: 1;
+}
+
+.nav-link.active {
+  background: var(--secondary-color);
+  color: var(--primary-color) !important;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.nav-link i {
+  margin-right: 1rem;
+  font-size: 1.25rem;
+}
+
+/* ---------------------------
+   Main Content Area
+---------------------------- */
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 2rem;
+  min-height: 100vh;
+  transition: var(--transition);
+}
+
+.main-content.collapsed {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+.content-container {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+/* ---------------------------
+   Table Styling
+---------------------------- */
+.table {
+  margin: 1rem 0;
+  width: 100%;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.table th {
+  background: rgba(0, 0, 0, 0.03);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  color: #495057;
+}
+
+.table td,
+.table th {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(44, 95, 45, 0.1);
+}
+
+/* ---------------------------
+   Buttons (Giữ Nguyên)
+---------------------------- */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* ---------------------------
+   Sidebar Toggle Button
+---------------------------- */
+#toggleSidebar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1100;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+}
+
+#toggleSidebar:hover {
+  background: var(--secondary-color);
+}
+
+/* ---------------------------
+   Responsive Design
+---------------------------- */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: var(--sidebar-collapsed-width);
+  }
+}
