@@ -108,31 +108,41 @@
               </div>
 <div class="mb-3">
   <label for="category_ids" class="form-label">Danh Mục</label>
-  <select class="form-control" name="category_ids" multiple>
-    <% categories.forEach((category) => { %>
-      <option value="<%= category.category_id %>" 
-        <%= (book && book.categories && book.categories.some(cat => cat.category_id === category.category_id)) ? "selected" : "" %> >
-        <%= category.name %>
-      </option>
-      
-    <% }) %>
+  <select class="form-control" name="category_id" multiple>
+    <% if (categories && categories.length > 0) { %>
+      <% categories.forEach(category => { %>
+        <% 
+          let isSelected = book.categories && 
+                          Array.isArray(book.categories) && 
+                          book.categories.some(cat => cat.category_id === category.category_id);
+        %>
+        <option 
+          value="<%= category.category_id %>" 
+          <%= isSelected ? "selected" : "" %>
+        >
+          <%= category.name %>
+        </option>
+      <% }) %>
+    <% } else { %>
+      <option disabled>Không có danh mục nào</option>
+    <% } %>
   </select>
-              </div>
-              <div class="mb-3">
-                <label for="edit_status" class="form-label">Trạng Thái</label>
-                <select id="edit_status" class="form-select" name="status">
-                  <option value="available">Còn Sách</option>
-                  <option value="unavailable">Hết Sách</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="edit_cover_image" class="form-label">Ảnh Bìa</label>
-                <div class="row align-items-center">
-                  <div class="col-md-6">
-                    <input
-                      type="file"
-                      class="form-control"
-                      id="edit_cover_image"
+</div>
+
+<div class="mb-3">
+  <label for="edit_status" class="form-label">Trạng Thái</label>
+  <select id="edit_status" class="form-select" name="status">
+    <option value="available">Còn Sách</option>
+    <option value="unavailable">Hết Sách</option>
+  </select>
+</div>
+
+<div class="mb-3">
+  <label for="edit_cover_image" class="form-label">Ảnh Bìa</label>
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <input
+        type
                       name="cover_image"
                       onchange="showImage(this)"
                     />

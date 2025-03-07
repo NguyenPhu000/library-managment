@@ -53,7 +53,7 @@ $(document).ready(function () {
       success: function (response) {
         alert("Sách đã được cập nhật thành công!");
         $("#editBookModal").modal("hide");
-        location.reload(); // <-- Chỉ load lại trang, không điều hướng về home
+        location.reload(); // Chỉ load lại trang, không điều hướng về home
       },
       error: function (err) {
         alert("Lỗi khi cập nhật sách.");
@@ -76,3 +76,17 @@ function showImage(input) {
     reader.readAsDataURL(input.files[0]);
   }
 }
+$(".edit-book-btn").click(function () {
+  let bookId = $(this).data("id");
+  let categories = $(this).data("categories"); // Lấy danh mục
+
+  $("#editBookModal input[name='book_id']").val(bookId);
+
+  $("#editBookModal select[name='category_id'] option").each(function () {
+    if (categories.includes(parseInt($(this).val()))) {
+      $(this).prop("selected", true);
+    } else {
+      $(this).prop("selected", false);
+    }
+  });
+});

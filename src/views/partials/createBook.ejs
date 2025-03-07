@@ -130,14 +130,11 @@
                   >Danh Mục</label
                 >
                 <select class="form-control" name="category_id" multiple>
-                  <% if (categories && categories.length > 0) { %> <%
-                  categories.forEach((category) => { %>
+                  <% categories.forEach(category => { %>
                   <option value="<%= category.category_id %>">
                     <%= category.name %>
                   </option>
-                  <% }) %> <% } else { %>
-                  <option disabled>Không có danh mục nào</option>
-                  <% } %>
+                  <% }) %>
                 </select>
               </div>
               <div class="mb-3">

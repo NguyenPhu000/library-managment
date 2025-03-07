@@ -18,13 +18,17 @@ let postCreateBooks = async (req, res) => {
       status: req.body.status,
       category: req.body.category,
       cover_image: req.file ? req.file.filename : null,
-      category: req.body.category || [],
+
+      category_id: Array.isArray(req.body.category_id)
+        ? req.body.category_id
+        : [req.body.category_id],
     };
 
     await bookService.createNewBooks(newBookData);
 
     let data = await bookService.getAllBooks();
-    res.render("bookPage", { dataTable: data });
+    let categories = await categoryService.getAllCategory();
+    res.render("bookPage", { dataTable: data, categories: categories || [] });
   } catch (error) {
     console.error("Error creating book:", error);
     res.status(500).json({ error: error.message });
@@ -36,9 +40,10 @@ let getDisplayBooks = async (req, res) => {
   try {
     let data = await bookService.getAllBooks();
     let categories = await categoryService.getAllCategory();
+
     res.render("bookPage", {
       dataTable: data,
-      categories,
+      categories: categories ? categories : [],
       currentPage: "books",
     });
   } catch (error) {
@@ -63,6 +68,10 @@ let updateBook = async (req, res) => {
       status: req.body.status,
       category: req.body.category,
       cover_image: req.file ? req.file.filename : null,
+      category_id: Array.isArray(req.body.category_id)
+        ? req.body.category_id
+        : [req.body.category_id],
+      assigned_by: req.user ? req.user.user_id : null,
     };
 
     await bookService.updateBook(bookId, bookData);
@@ -86,6 +95,9 @@ let deleteBook = async (req, res) => {
 
     await bookService.deleteBook(bookId);
     let data = await bookService.getAllBooks();
+    let categories = await categoryService.getAllCategory();
+
+    res.render("bookPage", { dataTable: data, categories: categories || [] });
     res.render("bookPage", { dataTable: data });
   } catch (error) {
     console.error("Error deleting book:", error);

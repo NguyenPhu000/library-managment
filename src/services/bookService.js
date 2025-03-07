@@ -4,7 +4,13 @@ let getAllBooks = () => {
   return new Promise(async (resolve, reject) => {
     try {
       let books = await db.Book.findAll({
-        raw: true, //hien thi du lieu goc
+        include: [
+          {
+            model: db.Category,
+            as: "categories",
+            through: { attributes: [] },
+          },
+        ],
       });
       resolve(books);
     } catch (error) {
@@ -31,11 +37,8 @@ let createNewBooks = async (bookData) => {
       category: bookData.category,
       cover_image: bookData.cover_image ? bookData.cover_image : [],
     });
-    if (bookData.category_id) {
-      await db.BookCategory.create({
-        book_id: newBook.book_id,
-        category_id: bookData.category_id,
-      });
+    if (bookData.category_id && Array.isArray(bookData.category_id)) {
+      await newBook.addCategories(bookData.category_id);
     }
     return newBook;
   } catch (error) {
@@ -71,14 +74,10 @@ let updateBook = async (bookId, bookData) => {
       { where: { book_id: bookId } }
     );
 
+    await db.BookCategory.destroy({ where: { book_id: bookId } });
+
     if (bookData.category_id) {
-      await db.BookCategory.destroy({
-        where: { book_id: bookId },
-      });
-      await db.BookCategory.create({
-        book_id: bookId,
-        category_id: bookData.category_id,
-      });
+      await book.setCategories(bookData.category_id); // Cập nhật danh mục
     }
     return "Book updated successfully!";
   } catch (error) {

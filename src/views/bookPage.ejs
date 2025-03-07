@@ -13,7 +13,10 @@
       class="card-header d-flex justify-content-between align-items-center bg-dark text-white"
     >
       <h2 class="m-0">Library Management</h2>
-      <span><%- include('partials/createBook') %></span>
+      <span
+        ><%- include('partials/createBook', { categories: typeof categories !==
+        'undefined' ? categories : [] }) %>
+      </span>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -53,10 +56,24 @@
                 </span>
               </td>
               <td>
-                <% if (book.categories && book.categories.length > 0) { %> <%=
-                book.categories.map(category => category.name).join(', ') %> <%
-                } else { %> Uncategorized <% } %>
+                <% if (book.categories && book.categories.length > 0) { %> <%
+                book.categories.forEach(category => { %>
+                <span
+                  class="badge bg-dark text-white px-3 py-2 me-1"
+                  style="border-radius: 8px"
+                >
+                  <%= category.name %>
+                </span>
+                <% }) %> <% } else { %>
+                <span
+                  class="badge bg-secondary text-white px-3 py-2"
+                  style="border-radius: 8px"
+                >
+                  Uncategorized
+                </span>
+                <% } %>
               </td>
+
               <td class="text-center">
                 <% if (book.cover_image) { %> <img src="/uploads/<%=
                 book.cover_image.replace(/['"]/g, '') %>" alt="Cover for <%=
@@ -102,7 +119,8 @@
   </div>
 </div>
 
-<%- include('partials/editBook',{ book: null, categories }) %>
+<%- include('partials/editBook', { book: {}, categories: categories || [] }) %>
+
 <!-- Footer -->
 <%- include('layouts/footer')%>
 <!-- Bootstrap JS Bundle & jQuery -->
