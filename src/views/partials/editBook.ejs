@@ -106,6 +106,18 @@
                   name="available_copies"
                 />
               </div>
+<div class="mb-3">
+  <label for="category_ids" class="form-label">Danh Mục</label>
+  <select class="form-control" name="category_ids" multiple>
+    <% categories.forEach((category) => { %>
+      <option value="<%= category.category_id %>" 
+        <%= (book && book.categories && book.categories.some(cat => cat.category_id === category.category_id)) ? "selected" : "" %> >
+        <%= category.name %>
+      </option>
+      
+    <% }) %>
+  </select>
+              </div>
               <div class="mb-3">
                 <label for="edit_status" class="form-label">Trạng Thái</label>
                 <select id="edit_status" class="form-select" name="status">
@@ -145,16 +157,3 @@
     </div>
   </div>
 </div>
-
-<!-- Script hiển thị ảnh bìa khi chọn file -->
-<script>
-  function showImage(input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        document.getElementById("edit_image_preview").src = e.target.result;
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-</script>

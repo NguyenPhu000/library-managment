@@ -10,18 +10,14 @@
   --text-color: #e0e0e0;
   --text-light: #ffffff;
   --bg-main: #f4f6f9;
-  --bg-sidebar: linear-gradient(
-    180deg,
-    #1e1e1e 0%,
-    #2b2b2b 100%
-  ); /* Màu đen xám hiện đại */
+  --bg-sidebar: linear-gradient(180deg, #1e1e1e 0%, #2b2b2b 100%);
   --bg-card: #ffffff;
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.07);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.15);
   --radius-sm: 8px;
   --radius-md: 12px;
-  --transition: all 0.3s ease;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ---------------------------
@@ -34,10 +30,12 @@ body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text-color);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ---------------------------
-   Sidebar Styling (Màu Đen Xám)
+   Sidebar Styling (Mượt mà hơn)
 ---------------------------- */
 .sidebar {
   width: var(--sidebar-width);
@@ -50,7 +48,9 @@ body {
   color: var(--text-light);
   box-shadow: var(--shadow-lg);
   z-index: 1000;
-  transition: var(--transition);
+  overflow: hidden;
+  transition: width 0.3s ease-in-out, padding 0.2s ease-in-out;
+  will-change: width, padding;
 }
 
 .sidebar.collapsed {
@@ -63,6 +63,12 @@ body {
   margin-bottom: 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 1rem;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.sidebar.collapsed .library-brand {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .sidebar .library-brand h3 {
@@ -77,12 +83,6 @@ body {
   opacity: 0.8;
 }
 
-.sidebar.collapsed .library-brand h3,
-.sidebar.collapsed .library-brand small,
-.sidebar.collapsed .nav .nav-text {
-  display: none;
-}
-
 /* Navigation Menu */
 .nav {
   margin-top: 2rem;
@@ -95,7 +95,7 @@ body {
   color: var(--text-light) !important;
   font-weight: 500;
   border-radius: var(--radius-sm);
-  transition: var(--transition);
+  transition: background 0.2s ease-in-out, transform 0.15s ease-out;
   margin: 0.5rem 0;
   opacity: 0.9;
 }
@@ -125,7 +125,7 @@ body {
   margin-left: var(--sidebar-width);
   padding: 2rem;
   min-height: 100vh;
-  transition: var(--transition);
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .main-content.collapsed {
@@ -140,7 +140,7 @@ body {
 }
 
 /* ---------------------------
-   Table Styling
+   Table Styling (Mượt hơn)
 ---------------------------- */
 .table {
   margin: 1rem 0;
@@ -168,16 +168,17 @@ body {
 
 .table tbody tr:hover {
   background-color: rgba(44, 95, 45, 0.1);
+  transition: background 0.2s ease-in-out;
 }
 
 /* ---------------------------
-   Buttons (Giữ Nguyên)
+   Buttons (Giữ nguyên, cải tiến)
 ---------------------------- */
 .btn {
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-sm);
   font-weight: 500;
-  transition: var(--transition);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   box-shadow: var(--shadow-sm);
 }
 
@@ -221,12 +222,13 @@ body {
   padding: 0.5rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: var(--transition);
+  transition: transform 0.2s ease-in-out;
   box-shadow: var(--shadow-md);
 }
 
 #toggleSidebar:hover {
   background: var(--secondary-color);
+  transform: scale(1.1);
 }
 
 /* ---------------------------
@@ -235,5 +237,10 @@ body {
 @media (max-width: 768px) {
   .main-content {
     margin-left: var(--sidebar-collapsed-width);
+  }
+
+  .sidebar {
+    width: var(--sidebar-collapsed-width);
+    padding: 2rem 0.5rem;
   }
 }

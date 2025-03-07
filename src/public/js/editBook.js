@@ -62,3 +62,17 @@ $(document).ready(function () {
     });
   });
 });
+function confirmDelete(bookId) {
+  if (confirm("Bạn có chắc chắn muốn xóa sách này không?")) {
+    window.location.href = "/books/delete?id=" + bookId;
+  }
+}
+function showImage(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("edit_image_preview").src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}

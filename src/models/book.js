@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         through: models.BookCategory,
         foreignKey: "book_id",
         otherKey: "category_id",
+        as: "categories",
       });
     }
   }

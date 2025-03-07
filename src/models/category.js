@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         through: models.BookCategory,
         foreignKey: "category_id",
         otherKey: "book_id",
+        as: "books",
       });
     }
   }

@@ -1,73 +1,79 @@
 import userService from "../services/userService";
 const db = require("../models");
 
-let getCreateUser = (req, res) => {
+const getCreateUser = (req, res) => {
   res.render("partials/createUser.ejs");
 };
 
 const getDisplayUser = async (req, res) => {
   try {
     const data = await userService.getAllUser();
-    res.render("userPage.ejs", { dataTable: data });
+    res.render("userPage", { dataTable: data, currentPage: "users" });
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
-let postCreateUser = async (req, res) => {
+const postCreateUser = async (req, res) => {
   try {
-    let message = await userService.createNewUser(req.body); //lay cac tham so tu form
+    const message = await userService.createNewUser(req.body);
     console.log(message);
-    return res.redirect("/");
+    const data = await userService.getAllUser(); // Fetch updated user list
+    return res.render("userPage", { dataTable: data });
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred while creating the user.");
   }
 };
-let updateUser = async (req, res) => {
+
+const updateUser = async (req, res) => {
   try {
     const data = req.body;
     await userService.updateUserData(data);
-    return res.redirect("/");
+    const updatedData = await userService.getAllUser(); // Fetch updated user list
+    return res.render("userPage", { dataTable: updatedData });
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
-let deleteUser = async (req, res) => {
+
+const deleteUser = async (req, res) => {
   try {
-    let id = req.query.id;
+    const id = req.query.id;
     if (id) {
       await userService.deleteUserById(id);
-
-      return res.redirect("/");
+      const data = await userService.getAllUser(); // Fetch updated user list
+      return res.render("userPage", { dataTable: data });
     } else {
-      res.status(400).send("User ID is required");
+      return res.status(400).send("User ID is required");
     }
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
-let toggleUserActiveStatus = async (req, res) => {
+const toggleUserActiveStatus = async (req, res) => {
   try {
-    const { id } = req.body; // Nhận ID từ body
-    if (!id)
+    const { id } = req.body;
+    if (!id) {
       return res
         .status(400)
         .json({ success: false, message: "User ID is required" });
+    }
 
-    let newStatus = await userService.toggleUserActiveStatus(id); // Gọi service
-    res.json({ success: true, is_active: newStatus }); // Trả về trạng thái mới
+    const newStatus = await userService.toggleUserActiveStatus(id);
+    res.json({ success: true, is_active: newStatus });
   } catch (error) {
-    console.error("Lỗi khi cập nhật trạng thái:", error);
-    res.status(500).json({ success: false, message: "Lỗi server" });
+    console.error("Error updating status:", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 module.exports = {
-  getCreateUser: getCreateUser,
-  postCreateUser: postCreateUser,
-  getDisplayUser: getDisplayUser,
-  updateUser: updateUser,
-  deleteUser: deleteUser,
-  toggleUserActiveStatus: toggleUserActiveStatus,
+  getCreateUser,
+  postCreateUser,
+  getDisplayUser,
+  updateUser,
+  deleteUser,
+  toggleUserActiveStatus,
 };

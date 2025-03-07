@@ -1,4 +1,5 @@
 import bookService from "../services/bookService";
+import categoryService from "../services/categoryService";
 
 let getCreateBooks = (req, res) => {
   res.render("partials/createBook");
@@ -17,23 +18,31 @@ let postCreateBooks = async (req, res) => {
       status: req.body.status,
       category: req.body.category,
       cover_image: req.file ? req.file.filename : null,
+      category: req.body.category || [],
     };
 
     await bookService.createNewBooks(newBookData);
 
     let data = await bookService.getAllBooks();
-    res.render("homePage.ejs", { dataTable: data });
+    res.render("bookPage", { dataTable: data });
   } catch (error) {
     console.error("Error creating book:", error);
     res.status(500).json({ error: error.message });
   }
 };
 
+// Display all books
 let getDisplayBooks = async (req, res) => {
   try {
     let data = await bookService.getAllBooks();
-    res.render("bookPage.ejs", { dataTable: data });
+    let categories = await categoryService.getAllCategory();
+    res.render("bookPage", {
+      dataTable: data,
+      categories,
+      currentPage: "books",
+    });
   } catch (error) {
+    console.error("Error displaying books:", error);
     res.status(500).send(error.message);
   }
 };
@@ -41,7 +50,7 @@ let getDisplayBooks = async (req, res) => {
 let updateBook = async (req, res) => {
   try {
     let bookId = req.body.book_id;
-    console.log("Updating Book ID:", bookId); // Debug xem có nhận đúng ID không
+    console.log("Updating Book ID:", bookId);
 
     let bookData = {
       isbn: req.body.isbn,
@@ -57,12 +66,15 @@ let updateBook = async (req, res) => {
     };
 
     await bookService.updateBook(bookId, bookData);
-    return res.redirect("/");
+    let data = await bookService.getAllBooks();
+    let categories = await categoryService.getAllCategory();
+    res.render("bookPage", { dataTable: data, categories });
   } catch (error) {
     console.error("Error updating book:", error);
     res.status(500).send(error.message);
   }
 };
+
 let deleteBook = async (req, res) => {
   try {
     let bookId = req.query.id;
@@ -71,16 +83,20 @@ let deleteBook = async (req, res) => {
     if (!bookId) {
       return res.status(400).send("Book ID is required");
     }
+
     await bookService.deleteBook(bookId);
-    return res.redirect("/");
+    let data = await bookService.getAllBooks();
+    res.render("bookPage", { dataTable: data });
   } catch (error) {
+    console.error("Error deleting book:", error);
     res.status(500).send(error.message);
   }
 };
+
 module.exports = {
-  getDisplayBooks: getDisplayBooks,
-  getCreateBooks: getCreateBooks,
-  postCreateBooks: postCreateBooks,
-  updateBook: updateBook,
-  deleteBook: deleteBook,
+  getCreateBooks,
+  postCreateBooks,
+  getDisplayBooks,
+  updateBook,
+  deleteBook,
 };

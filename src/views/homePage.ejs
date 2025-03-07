@@ -1,75 +1,15 @@
-<!DOCTYPE html>
-<html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quản Trị Thư Viện</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/homePage.css" />
-  </head>
-  <body>
-    <!-- Sidebar -->
-    <nav class="sidebar">
-      <div class="library-brand">
-        <h3><i class="fas fa-book me-2"></i>Thư Viện</h3>
-        <small class="text-light">Hệ thống quản lý</small>
-      </div>
-
-      <ul class="nav flex-column mt-3">
-        <li class="nav-item">
-          <a class="nav-link active" href="#dashboard">
-            <i class="fas fa-chart-line"></i>
-            Dashboard
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#users">
-            <i class="fas fa-users"></i>
-            Quản lý người dùng
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#books">
-            <i class="fas fa-book"></i>
-            Quản lý sách
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#members">
-            <i class="fas fa-address-card"></i>
-            Thành viên
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#transactions">
-            <i class="fas fa-exchange-alt"></i>
-            Mượn/Trả sách
-          </a>
-        </li>
-      </ul>
-      <button id="toggleSidebar" class="btn-icon">
-        <i class="fas fa-bars"></i>
-      </button>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <div class="content-container" id="content-container">
-        <h3>Dashboard</h3>
-        <p>Nội dung đang được cập nhật...</p>
-      </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="../js/homePage.js"></script>
-  </body>
-</html>
+<!-- Header -->
+<%- include('layouts/header',{title: 'Trang Chủ'})%>
+<!-- Sidebar -->
+<%- include('layouts/sidebar')%>
+<!-- Main Content -->
+<!-- Nội dung chính -->
+<div class="main-content flex-grow-1 p-4">
+  <div class="content-container">
+    <h3>Dashboard</h3>
+    <p>Nội dung đang được cập nhật...</p>
+  </div>
+</div>
+</div>
+<!-- Footer -->
+<%- include('layouts/footer')%>

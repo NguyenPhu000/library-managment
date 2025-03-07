@@ -1,9 +1,9 @@
-import db from "../models/index";
+import db from "../models/index.js";
 
 let getAllBooks = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let books = db.Book.findAll({
+      let books = await db.Book.findAll({
         raw: true, //hien thi du lieu goc
       });
       resolve(books);
@@ -31,7 +31,12 @@ let createNewBooks = async (bookData) => {
       category: bookData.category,
       cover_image: bookData.cover_image ? bookData.cover_image : [],
     });
-
+    if (bookData.category_id) {
+      await db.BookCategory.create({
+        book_id: newBook.book_id,
+        category_id: bookData.category_id,
+      });
+    }
     return newBook;
   } catch (error) {
     console.error("Error creating book:", error);
@@ -45,7 +50,10 @@ let updateBook = async (bookId, bookData) => {
   }
 
   try {
-    const book = await db.Book.findOne({ where: { book_id: bookId } });
+    const book = await db.Book.findOne({
+      where: { book_id: bookId },
+    });
+
     if (!book) throw new Error("Book not found!");
 
     await db.Book.update(
@@ -63,6 +71,15 @@ let updateBook = async (bookId, bookData) => {
       { where: { book_id: bookId } }
     );
 
+    if (bookData.category_id) {
+      await db.BookCategory.destroy({
+        where: { book_id: bookId },
+      });
+      await db.BookCategory.create({
+        book_id: bookId,
+        category_id: bookData.category_id,
+      });
+    }
     return "Book updated successfully!";
   } catch (error) {
     throw new Error("Error updating book: " + error.message);
@@ -78,6 +95,8 @@ let deleteBook = async (bookId) => {
     if (!book) {
       throw new Error("Book not found!");
     }
+
+    await db.BookCategory.destroy({ where: { book_id: bookId } });
 
     await db.Book.destroy({ where: { book_id: bookId } });
 

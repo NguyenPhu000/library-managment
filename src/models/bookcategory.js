@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class BookCategory extends Model {
     static associate(models) {
-      // Thuộc tính trung gian, ta đã định nghĩa belongsToMany ở Book & Category
+      // Thuộc tính trung gian,  đã định nghĩa belongsToMany ở Book & Category
     }
   }
   BookCategory.init(
