@@ -24,3 +24,9 @@ $(document).ready(function () {
     modal.find("#editEmail").val(email);
   });
 });
+
+window.confirmDelete = function (UserId) {
+  if (confirm("Bạn có chắc chắn muốn xóa sách này không?")) {
+    window.location.href = "/users/delete?id=" + UserId;
+  }
+};

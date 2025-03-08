@@ -98,7 +98,8 @@
                     data-total="<%= book.total_copies %>"
                     data-available="<%= book.available_copies %>"
                     data-status="<%= book.status %>"
-                    data-cover="<%= book.cover_image %>"
+                    data-cover="<%= book.cover_image ? book.cover_image.replace(/['"]/g, '') : '' %>"
+                    data-categories="<%= JSON.stringify(book.categories ? book.categories.map(cat => cat.id) : []) %>"
                   >
                     Edit
                   </a>

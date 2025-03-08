@@ -12,11 +12,13 @@ router.post(
   upload.single("cover_image"),
   bookController.postCreateBooks
 );
+
 router.post(
   "/books/update",
   upload.single("cover_image"),
   bookController.updateBook
 );
+
 router.get("/books/delete", bookController.deleteBook);
 
 export default router;

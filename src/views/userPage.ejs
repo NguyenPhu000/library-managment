@@ -86,12 +86,12 @@
                   >
                     Edit
                   </a>
-                  <a
-                    href="/users/delete?id=<%= user.user_id %>"
-                    class="btn btn-sm btn-outline-danger"
+                  <button
+                    class="btn btn-outline-danger btn-sm"
+                    onclick="confirmDelete('<%= user.user_id %>')"
                   >
                     Delete
-                  </a>
+                  </button>
                 </div>
               </td>
             </tr>
