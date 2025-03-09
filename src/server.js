@@ -3,18 +3,19 @@ import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/webRoutes";
 import connectDB from "./config/connectDB";
+// import sessionConfig from "./config/sessionConfig";
 import dotenv from "dotenv";
-import path from "path";
 
 dotenv.config();
 
 const app = express();
 
-// Configure view engine
-viewEngine(app);
-
 // Connect to the database
 connectDB();
+// Config Session
+// sessionConfig(app);
+// Configure view engine
+viewEngine(app);
 
 // Configure app
 app.use(bodyParser.json());

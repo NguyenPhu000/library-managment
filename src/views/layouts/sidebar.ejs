@@ -5,44 +5,69 @@
   </div>
 
   <ul class="nav flex-column mt-3">
+    <!-- Dashboard -->
     <li class="nav-item">
-      <a class="nav-link" href="#dashboard">
-        <i class="fas fa-chart-line"></i>
-        Dashboard
+      <a class="nav-link" href="/">
+        <i class="fas fa-chart-line"></i> Dashboard
       </a>
     </li>
+
+    <!-- Quản lý hệ thống (Dropdown) -->
     <li class="nav-item">
-      <a class="nav-link" href="/users">
-        <i class="fas fa-users"></i>
-        Quản lý người dùng
+      <a
+        class="nav-link dropdown-toggle"
+        data-bs-target="#systemMenu"
+        aria-expanded="false"
+      >
+        <i class="fas fa-cogs"></i> Quản lý hệ thống
       </a>
+      <ul id="systemMenu" class="collapse list-unstyled">
+        <li>
+          <a class="nav-link" href="/users"
+            ><i class="fas fa-users"></i> Quản lý người dùng</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="/admin"
+            ><i class="fas fa-user-shield"></i> Quản lý admin</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="/members"
+            ><i class="fas fa-address-card"></i> Thành viên</a
+          >
+        </li>
+      </ul>
     </li>
+
+    <!-- Quản lý Sách & Danh mục -->
     <li class="nav-item">
-      <a class="nav-link" href="/books">
-        <i class="fas fa-book"></i>
-        Quản lý sách
+      <a
+        class="nav-link dropdown-toggle"
+        data-bs-target="#bookMenu"
+        aria-expanded="false"
+      >
+        <i class="fas fa-book"></i> Quản lý sách
       </a>
+      <ul id="bookMenu" class="collapse list-unstyled">
+        <li>
+          <a class="nav-link" href="/books"
+            ><i class="fas fa-book-open"></i> Sách</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="/category"
+            ><i class="fas fa-layer-group"></i> Danh mục</a
+          >
+        </li>
+      </ul>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/category">
-        <i class="fa-solid fa-layer-group" style="color: #ffffff"></i> Quản lý
-        danh mục
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#members">
-        <i class="fas fa-address-card"></i>
-        Thành viên
-      </a>
-    </li>
+
+    <!-- Mượn/Trả sách -->
     <li class="nav-item">
       <a class="nav-link" href="#transactions">
-        <i class="fas fa-exchange-alt"></i>
-        Mượn/Trả sách
+        <i class="fas fa-exchange-alt"></i> Mượn/Trả sách
       </a>
     </li>
   </ul>
-  <button id="toggleSidebar" class="btn-icon">
-    <i class="fas fa-bars"></i>
-  </button>
 </nav>

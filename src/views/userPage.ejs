@@ -28,8 +28,7 @@
               <th>Phone</th>
               <th>Address</th>
               <th>Is Active</th>
-              <th>Create At</th>
-              <th>Update At</th>
+
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -49,9 +48,7 @@
               <td><%= user.last_name %></td>
               <td><%= user.gender == 1 ? 'Male' : 'Female' %></td>
               <td>
-                <a
-                  href="mailto:<%= user.email %>"
-                  class="text-decoration-none text-primary"
+                <a href="mailto:<%= user.email %>" class="text-decoration-none"
                   ><%= user.email %></a
                 >
               </td>
@@ -65,8 +62,7 @@
                   <%= user.is_active == 1 ? "On" : "Off" %>
                 </a>
               </td>
-              <td><%= user.create_at %></td>
-              <td><%= user.updated_at %></td>
+
               <td class="text-center">
                 <div class="d-flex justify-content-center gap-2">
                   <a
@@ -105,8 +101,11 @@
 
 <!-- Include the Edit User Modal -->
 <%- include('partials/editUser') %>
-<!-- Footer -->
-<%- include('layouts/footer')%>
 <!-- Scripts -->
+<!-- jQuery CDN (Nếu chưa có) -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script src="/js/editUser.js"></script>
 <script src="/js/toggleActive.js"></script>
+<!-- Footer -->
+<%- include('layouts/footer')%>

@@ -13,7 +13,7 @@ let createNewUser = async (data) => {
       first_name: data.first_name,
       last_name: data.last_name,
       gender: data.gender === "1",
-      role: data.role,
+      role: data.role || "user",
       email: data.email,
       phone: data.phone,
       address: data.address,

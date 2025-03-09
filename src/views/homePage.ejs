@@ -1,15 +1,89 @@
 <!-- Header -->
-<%- include('layouts/header',{title: 'Trang Chủ'})%>
+<%- include('layouts/header', { title: 'Dashboard' }) %>
+
 <!-- Sidebar -->
-<%- include('layouts/sidebar')%>
+<%- include('layouts/sidebar') %>
+
 <!-- Main Content -->
-<!-- Nội dung chính -->
 <div class="main-content flex-grow-1 p-4">
-  <div class="content-container">
-    <h3>Dashboard</h3>
-    <p>Nội dung đang được cập nhật...</p>
+  <div class="container-fluid">
+    <h3 class="mb-4"><i class="fas fa-chart-line"></i> Dashboard</h3>
+
+    <!-- THỐNG KÊ -->
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card stat-card">
+          <div class="card-body">
+            <i class="fas fa-users"></i>
+            <h5>Thành viên</h5>
+            <h2>120</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card stat-card">
+          <div class="card-body">
+            <i class="fas fa-book"></i>
+            <h5>Số sách</h5>
+            <h2>340</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card stat-card">
+          <div class="card-body">
+            <i class="fas fa-handshake"></i>
+            <h5>Đơn mượn</h5>
+            <h2>58</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card stat-card stat-danger">
+          <div class="card-body">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h5>Quá hạn</h5>
+            <h2>5</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIỂU ĐỒ -->
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5><i class="fas fa-chart-bar"></i> Sách mượn theo tháng</h5>
+            <div class="chart-placeholder">📊 Biểu đồ sẽ hiển thị tại đây</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5><i class="fas fa-user-check"></i> Trạng thái thành viên</h5>
+            <div class="chart-placeholder">📊 Biểu đồ sẽ hiển thị tại đây</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOẠT ĐỘNG GẦN ĐÂY -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h5><i class="fas fa-clock"></i> Hoạt động gần đây</h5>
+            <ul class="list-group">
+              <li class="list-group-item">📌 Đang tải...</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-</div>
+
 <!-- Footer -->
-<%- include('layouts/footer')%>
+<%- include('layouts/footer') %>

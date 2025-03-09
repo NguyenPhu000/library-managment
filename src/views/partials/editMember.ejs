@@ -1,0 +1,97 @@
+<!-- Modal Edit Member -->
+<div
+  class="modal fade"
+  id="editMemberModal"
+  tabindex="-1"
+  aria-labelledby="editMemberModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editMemberModalLabel">Edit Member</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form action="/members/update" method="POST">
+          <input type="hidden" name="member_id" id="editMemberId" />
+
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editUsername"
+              disabled
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Member Code</label>
+            <input
+              type="text"
+              class="form-control"
+              name="member_code"
+              id="editMemberCode"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Join Date</label>
+            <input
+              type="date"
+              class="form-control"
+              name="join_date"
+              id="editJoinDate"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Expiry Date</label>
+            <input
+              type="date"
+              class="form-control"
+              name="expiry_date"
+              id="editExpiryDate"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Max Loans</label>
+            <input
+              type="number"
+              class="form-control"
+              name="max_loans"
+              id="editMaxLoans"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Current Loans</label>
+            <input
+              type="number"
+              class="form-control"
+              name="current_loans"
+              id="editCurrentLoans"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select class="form-control" name="status" id="editStatus">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
