@@ -14,72 +14,73 @@
         <!-- Nút đồng bộ Admin -->
         <a href="/admin/sync" class="btn btn-light">Đồng bộ Admin</a>
       </div>
-    </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered mb-0">
+            <thead class="table-dark text-white">
+              <tr>
+                <th class="text-center">No.</th>
+                <th>Username</th>
 
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered mb-0">
-          <thead class="table-dark text-white">
-            <tr>
-              <th class="text-center">No.</th>
-              <th>Username</th>
-
-              <th>Access Level</th>
-              <th>Department</th>
-              <th>Can Manage Users</th>
-              <th>Can Manage Books</th>
-              <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% dataTable.forEach(function(admin, index) { %>
-            <tr>
-              <td class="text-center"><%= index + 1 %></td>
-              <td>
-                <strong><%= admin.User ? admin.User.username : "N/A" %></strong>
-              </td>
-
-              <td>
-                <span class="badge rounded-pill bg-primary">
-                  <%= admin.access_level %>
-                </span>
-              </td>
-              <td><%= admin.department %></td>
-              <td>
-                <span
-                  class="badge rounded-pill <%= admin.can_manage_users ? 'bg-success' : 'bg-danger' %>"
-                >
-                  <%= admin.can_manage_users ? "Yes" : "No" %>
-                </span>
-              </td>
-              <td>
-                <span
-                  class="badge rounded-pill <%= admin.can_manage_books ? 'bg-success' : 'bg-danger' %>"
-                >
-                  <%= admin.can_manage_books ? "Yes" : "No" %>
-                </span>
-              </td>
-              <td class="text-center">
-                <div class="d-flex justify-content-center gap-2">
-                  <button
-                    class="btn btn-sm btn-outline-primary mx-auto d-block"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editAdminModal"
-                    data-id="<%= admin.admin_id %>"
-                    data-username="<%= admin.User ? admin.User.username : '' %>"
-                    data-access_level="<%= admin.access_level %>"
-                    data-department="<%= admin.department %>"
-                    data-can_manage_users="<%= admin.can_manage_users %>"
-                    data-can_manage_books="<%= admin.can_manage_books %>"
+                <th>Access Level</th>
+                <th>Department</th>
+                <th>Can Manage Users</th>
+                <th>Can Manage Books</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% dataTable.forEach(function(admin, index) { %>
+              <tr>
+                <td class="text-center"><%= index + 1 %></td>
+                <td>
+                  <strong
+                    ><%= admin.User ? admin.User.username : "N/A" %></strong
                   >
-                    Edit
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <% }); %>
-          </tbody>
-        </table>
+                </td>
+
+                <td>
+                  <span class="badge rounded-pill bg-primary">
+                    <%= admin.access_level %>
+                  </span>
+                </td>
+                <td><%= admin.department %></td>
+                <td>
+                  <span
+                    class="badge rounded-pill <%= admin.can_manage_users ? 'bg-success' : 'bg-danger' %>"
+                  >
+                    <%= admin.can_manage_users ? "Yes" : "No" %>
+                  </span>
+                </td>
+                <td>
+                  <span
+                    class="badge rounded-pill <%= admin.can_manage_books ? 'bg-success' : 'bg-danger' %>"
+                  >
+                    <%= admin.can_manage_books ? "Yes" : "No" %>
+                  </span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-2">
+                    <button
+                      class="btn btn-sm btn-outline-primary mx-auto d-block"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editAdminModal"
+                      data-id="<%= admin.admin_id %>"
+                      data-username="<%= admin.User ? admin.User.username : '' %>"
+                      data-access_level="<%= admin.access_level %>"
+                      data-department="<%= admin.department %>"
+                      data-can_manage_users="<%= admin.can_manage_users %>"
+                      data-can_manage_books="<%= admin.can_manage_books %>"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

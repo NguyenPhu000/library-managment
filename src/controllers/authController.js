@@ -1,33 +1,39 @@
 import authService from "../services/authService.js";
 
-export const postLogin = async (req, res) => {
+let showLogin = async (req, res) => {
+  res.render("auth/login", { errorMessage: null });
+};
+
+let login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    let { username, password } = req.body;
+    let result = await authService.login(username, password);
+    // console.log("Kết quả login:", result);
 
-    // Gọi service để kiểm tra đăng nhập
-    const user = await authService.loginUser(username, password, req);
-
-    if (!user) return res.redirect("/login");
-
-    // Lưu thông tin user vào session
-    req.session.user = user;
-
-    // Kiểm tra role để điều hướng
-    if (user.role === "admin") {
-      req.flash("success_msg", "Đăng nhập thành công! Chào mừng Admin.");
-      return res.redirect("/");
-    } else {
-      req.flash("success_msg", "Đăng nhập thành công! Chào mừng thành viên.");
-      return res.redirect("/thuvien");
+    if (!result.success) {
+      return res.render("auth/login", { errorMessage: result.message });
     }
+
+    req.session.user = result.user;
+
+    res.redirect(result.user.role === "admin" ? "/" : "auth/thuvien");
   } catch (error) {
-    req.flash("error_msg", "Có lỗi xảy ra, vui lòng thử lại.");
-    res.redirect("/login");
+    console.error("Lỗi controller login:", error.message);
+    res.status(500).send("Lỗi server, vui lòng thử lại!");
   }
 };
 
-export const logout = (req, res) => {
-  req.session.destroy(() => {
+let logout = async (req, res) => {
+  try {
+    await authService.logout(req);
     res.redirect("/login");
-  });
+  } catch (error) {
+    console.error("Lỗi logout:", error.message);
+    res.status(500).send("Lỗi server khi đăng xuất!");
+  }
+};
+export default {
+  showLogin,
+  login,
+  logout,
 };

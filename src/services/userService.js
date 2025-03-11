@@ -77,15 +77,16 @@ let deleteUserById = async (id) => {
   }
 };
 
-let toggleUserActiveStatus = async (id) => {
+let toggleActive = async (id) => {
   try {
     const user = await db.User.findByPk(id);
     if (!user) throw new Error("User not found");
 
-    const newStatus = !user.is_active;
-    await user.update({ is_active: newStatus });
+    // đảo trạng thái
+    user.is_active = !user.is_active;
+    await user.save();
 
-    return newStatus;
+    return user.is_active;
   } catch (error) {
     throw new Error("Error toggling user status: " + error.message);
   }
@@ -97,5 +98,5 @@ export default {
   getUserInfoById,
   updateUserData,
   deleteUserById,
-  toggleUserActiveStatus,
+  toggleActive,
 };

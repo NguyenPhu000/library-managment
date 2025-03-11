@@ -46,19 +46,17 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const toggleUserActiveStatus = async (req, res) => {
+const toggleActive = async (req, res) => {
   try {
-    if (!req.body.id) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User ID is required" });
-    }
+    if (!req.query.id) return res.status(400).send("User ID is required");
 
-    const newStatus = await userService.toggleUserActiveStatus(req.body.id);
-    res.json({ success: true, is_active: newStatus });
+    await userService.toggleActive(req.query.id);
+
+    const users = await userService.getAllUser();
+    return res.render("userPage", { dataTable: users, currentPage: "users" });
   } catch (error) {
-    console.error("Error updating status:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("Error toggling active status:", error);
+    res.status(500).send(error.message);
   }
 };
 
@@ -68,5 +66,5 @@ export default {
   getDisplayUser,
   updateUser,
   deleteUser,
-  toggleUserActiveStatus,
+  toggleActive,
 };

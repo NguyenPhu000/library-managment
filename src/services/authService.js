@@ -1,35 +1,36 @@
 import bcrypt from "bcryptjs";
-import db from "../models/index.js";
+import { User } from "../models";
 
-const loginUser = async (username, password, req) => {
+let login = async (username, password) => {
   try {
-    const user = await db.User.findOne({ where: { username } });
+    let user = await User.findOne({ where: { username } });
 
     if (!user) {
-      req.flash("error_msg", "Tài khoản không tồn tại!");
-      return null;
+      return { success: false, message: "Tài khoản không tồn tại!" };
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = bcrypt.compareSync(password, user.password);
     if (!isMatch) {
-      req.flash("error_msg", "Mật khẩu không đúng!");
-      return null;
-    }
-
-    if (!user.is_active) {
-      req.flash("error_msg", "Tài khoản của bạn đã bị vô hiệu hóa!");
-      return null;
+      return { success: false, message: "Mật khẩu không chính xác!" };
     }
 
     return {
-      user_id: user.user_id,
-      username: user.username,
-      role: user.role, // "admin" || "member" || "guest"
+      success: true,
+      user: { user_id: user.user_id, username: user.username, role: user.role },
     };
   } catch (error) {
-    req.flash("error_msg", "Có lỗi xảy ra, vui lòng thử lại.");
-    return null;
+    console.error("Lỗi Đăng Nhập:", error.message);
+    return { success: false, message: "Đã xảy ra lỗi, vui lòng thử lại!" };
   }
 };
 
-export default { loginUser };
+let logout = async (req) => {
+  return new Promise((resolve, reject) => {
+    req.session.destroy((error) => {
+      if (error) reject("Lỗi đăng xuất!!!");
+      resolve("Đăng xuất thành công!!!");
+    });
+  });
+};
+
+export default { login, logout };

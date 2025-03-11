@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 import fs from "fs";
 import path from "path";
+import { Op } from "sequelize";
 
 const uploadPath = path.join(process.cwd(), "src", "public", "uploads");
 
@@ -96,10 +97,30 @@ let deleteBook = async (req) => {
   await db.Book.destroy({ where: { book_id: bookId } });
 };
 
+let searchBook = async (filters) => {
+  try {
+    let whereClause = {};
+
+    if (filters.criteria && filters.query) {
+      whereClause[filters.criteria] = { [Op.like]: `%${filters.query}%` };
+    }
+
+    let books = await db.Book.findAll({
+      where: whereClause,
+      include: [
+        { model: db.Category, as: "categories", through: { attributes: [] } },
+      ],
+    });
+    return books;
+  } catch (error) {
+    throw new Error("Không thể tìm kiếm sách, vui lòng thử lại!");
+  }
+};
 export default {
   getBookById,
   getAllBooks,
   createNewBooks,
   updateBook,
   deleteBook,
+  searchBook,
 };

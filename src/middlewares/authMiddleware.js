@@ -1,13 +1,16 @@
-let isAdmin = (req, res, next) => {
-  if (!req.user || req.user.role !== "admin") {
-    return res
-      .status(403)
-      .json({
-        success: false,
-        message: "Truy cập bị từ chối vì bạn không phải Admin!",
-      });
+let authauthMiddleware = (req, res, next) => {
+  if (!req.session.user) {
+    req.flash("error_msg", "Bạn cần đăng nhập trước!");
+    return res.redirect("/login");
   }
+
+  const { role } = req.session.user;
+
+  if (role === "member" && req.path === "/") {
+    return res.redirect("/thuvien");
+  }
+
   next();
 };
 
-export default { isAdmin };
+export default authauthMiddleware;

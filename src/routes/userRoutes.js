@@ -9,6 +9,6 @@ router.get("/users/create", userController.getCreateUser);
 router.post("/users/create", userController.postCreateUser);
 router.post("/users/update", userController.updateUser);
 router.get("/users/delete", userController.deleteUser);
-router.get("/users/toggle-user-active", userController.toggleUserActiveStatus);
+router.get("/users/toggle-active", userController.toggleActive);
 
 export default router;

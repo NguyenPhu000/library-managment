@@ -10,7 +10,13 @@ let postCreateBooks = async (req, res) => {
     await bookService.createNewBooks(req);
     let data = await bookService.getAllBooks();
     let categories = await categoryService.getAllCategory();
-    res.render("bookPage", { dataTable: data, categories });
+    res.render("bookPage", {
+      dataTable: data,
+      categories,
+      currentPage: "books",
+      criteria: req.query.criteria || "",
+      query: req.query.query || "",
+    });
   } catch (error) {
     console.error("Error creating book:", error);
     res.status(500).json({ error: error.message });
@@ -19,16 +25,27 @@ let postCreateBooks = async (req, res) => {
 
 let getDisplayBooks = async (req, res) => {
   try {
-    let data = await bookService.getAllBooks();
+    let { criteria, query } = req.query;
+    let books;
+
+    if (criteria && query) {
+      books = await bookService.searchBook({ criteria, query });
+    } else {
+      books = await bookService.getAllBooks();
+    }
+
     let categories = await categoryService.getAllCategory();
+
     res.render("bookPage", {
-      dataTable: data,
+      dataTable: books,
       categories,
       currentPage: "books",
+      criteria: criteria || "",
+      query: query || "",
     });
   } catch (error) {
-    console.error("Error displaying books:", error);
-    res.status(500).send(error.message);
+    console.error("Lỗi khi hiển thị sách:", error);
+    res.status(500).send("Lỗi hệ thống, vui lòng thử lại!");
   }
 };
 
@@ -37,7 +54,13 @@ let updateBook = async (req, res) => {
     await bookService.updateBook(req);
     let data = await bookService.getAllBooks();
     let categories = await categoryService.getAllCategory();
-    res.render("bookPage", { dataTable: data, categories });
+    res.render("bookPage", {
+      dataTable: data,
+      categories,
+      currentPage: "books",
+      criteria: req.query.criteria || "",
+      query: req.query.query || "",
+    });
   } catch (error) {
     console.error("Error updating book:", error);
     res.status(500).send(error.message);
@@ -49,7 +72,13 @@ let deleteBook = async (req, res) => {
     await bookService.deleteBook(req);
     let data = await bookService.getAllBooks();
     let categories = await categoryService.getAllCategory();
-    res.render("bookPage", { dataTable: data, categories });
+    res.render("bookPage", {
+      dataTable: data,
+      categories,
+      currentPage: "books",
+      criteria: req.query.criteria || "",
+      query: req.query.query || "",
+    });
   } catch (error) {
     console.error("Error deleting book:", error);
     res.status(500).send(error.message);

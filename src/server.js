@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/webRoutes";
 import connectDB from "./config/connectDB";
-// import sessionConfig from "./config/sessionConfig";
+import sessionConfig from "./config/sessionConfig";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -12,8 +12,10 @@ const app = express();
 
 // Connect to the database
 connectDB();
+
 // Config Session
-// sessionConfig(app);
+sessionConfig(app);
+
 // Configure view engine
 viewEngine(app);
 

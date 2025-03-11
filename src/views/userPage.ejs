@@ -11,89 +11,90 @@
         <h2 class="mb-0"><strong>User Management</strong></h2>
         <span><%- include('partials/createUser') %></span>
       </div>
-    </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered mb-0">
+            <thead class="table-dark text-white">
+              <tr>
+                <th class="text-center">No.</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Is Active</th>
 
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered mb-0">
-          <thead class="table-dark text-white">
-            <tr>
-              <th class="text-center">No.</th>
-              <th>Username</th>
-              <th>Role</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Gender</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Address</th>
-              <th>Is Active</th>
-
-              <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% dataTable.forEach(function(user, index) { %>
-            <tr>
-              <td class="text-center"><%= index + 1 %></td>
-              <td><strong><%= user.username %></strong></td>
-              <td>
-                <span
-                  class="badge rounded-pill <%= user.role === 'admin' ? 'bg-danger' : 'bg-primary' %>"
-                >
-                  <%= user.role %>
-                </span>
-              </td>
-              <td><%= user.first_name %></td>
-              <td><%= user.last_name %></td>
-              <td><%= user.gender == 1 ? 'Male' : 'Female' %></td>
-              <td>
-                <a href="mailto:<%= user.email %>" class="text-decoration-none"
-                  ><%= user.email %></a
-                >
-              </td>
-              <td><%= user.phone %></td>
-              <td><%= user.address %></td>
-              <td class="text-center">
-                <a
-                  href="/users/toggle-user-activen?id=<%= user.user_id %>"
-                  class="badge rounded-pill <%= user.is_active == 1 ? 'bg-success' : 'bg-danger' %> toggle-active"
-                >
-                  <%= user.is_active == 1 ? "On" : "Off" %>
-                </a>
-              </td>
-
-              <td class="text-center">
-                <div class="d-flex justify-content-center gap-2">
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% dataTable.forEach(function(user, index) { %>
+              <tr>
+                <td class="text-center"><%= index + 1 %></td>
+                <td><strong><%= user.username %></strong></td>
+                <td>
+                  <span
+                    class="badge rounded-pill <%= user.role === 'admin' ? 'bg-danger' : 'bg-primary' %>"
+                  >
+                    <%= user.role %>
+                  </span>
+                </td>
+                <td><%= user.first_name %></td>
+                <td><%= user.last_name %></td>
+                <td><%= user.gender == 1 ? 'Male' : 'Female' %></td>
+                <td>
                   <a
-                    href="/users/update?id=<%= user.user_id %>"
-                    class="btn btn-sm btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editUserModal"
-                    data-id="<%= user.user_id %>"
-                    data-username="<%= user.username %>"
-                    data-first_name="<%= user.first_name %>"
-                    data-last_name="<%= user.last_name %>"
-                    data-phone="<%= user.phone %>"
-                    data-role="<%= user.role %>"
-                    data-gender="<%= user.gender %>"
-                    data-address="<%= user.address %>"
-                    data-email="<%= user.email %>"
+                    href="mailto:<%= user.email %>"
+                    class="text-decoration-none"
+                    ><%= user.email %></a
                   >
-                    Edit
+                </td>
+                <td><%= user.phone %></td>
+                <td><%= user.address %></td>
+                <td class="text-center">
+                  <a
+                    href="/users/toggle-active?id=<%= user.user_id %>"
+                    class="badge rounded-pill <%= user.is_active ? 'bg-success' : 'bg-danger' %>"
+                  >
+                    <%= user.is_active ? "On" : "Off" %> ++
                   </a>
-                  <button
-                    class="btn btn-outline-danger btn-sm"
-                    onclick="confirmDelete('<%= user.user_id %>')"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <% }); %>
-          </tbody>
-        </table>
+                </td>
+
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-2">
+                    <a
+                      href="/users/update?id=<%= user.user_id %>"
+                      class="btn btn-sm btn-outline-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editUserModal"
+                      data-id="<%= user.user_id %>"
+                      data-username="<%= user.username %>"
+                      data-first_name="<%= user.first_name %>"
+                      data-last_name="<%= user.last_name %>"
+                      data-phone="<%= user.phone %>"
+                      data-role="<%= user.role %>"
+                      data-gender="<%= user.gender %>"
+                      data-address="<%= user.address %>"
+                      data-email="<%= user.email %>"
+                    >
+                      Edit
+                    </a>
+                    <button
+                      class="btn btn-outline-danger btn-sm"
+                      onclick="confirmDelete('<%= user.user_id %>')"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

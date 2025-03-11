@@ -1,0 +1,162 @@
+:root {
+  --primary-color: #b5db88;
+  --secondary-color: #7ab74b;
+  --text-color: white;
+  --bg-opacity: 0.85;
+  --transition: 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(
+    to right,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+}
+
+.login-container {
+  background: rgba(0, 0, 0, var(--bg-opacity));
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: min(350px, 90%);
+  text-align: center;
+  color: var(--text-color);
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.625rem;
+  color: var(--primary-color);
+}
+
+p {
+  font-size: 0.875rem;
+  margin-bottom: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.error-message {
+  color: #ff3b3b;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 0.625rem;
+  border-radius: 5px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+/* ========== FORM ========== */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #b5db88; /* Chữ xanh nhạt */
+}
+
+/* ========== INPUT FIELD ========== */
+.input-wrapper {
+  position: relative;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+input:focus {
+  border: 2px solid #b5db88;
+}
+
+/* ========== TOGGLE PASSWORD (EYE ICON) ========== */
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.toggle-password i {
+  color: white;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.toggle-password:hover i {
+  color: #b5db88;
+}
+
+/* ========== FORGOT PASSWORD LINK ========== */
+.forgot-password {
+  font-size: 12px;
+  color: #b5db88;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* ========== LOGIN BUTTON ========== */
+button {
+  background: #b5db88;
+  color: black;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #a1c374;
+}
+
+/* ========== RESPONSIVE ========== */
+@media screen and (max-width: 400px) {
+  .login-container {
+    width: 90%;
+  }
+}
