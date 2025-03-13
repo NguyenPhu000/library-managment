@@ -59,10 +59,11 @@
             <% }) %>
           </tbody>
         </table>
+        <%- include('partials/pagination', { dataTable }) %>
       </div>
     </div>
   </div>
-
+  <script src="/js/pagination.js"></script>
   <!-- Includes and Scripts -->
   <%- include('partials/editCategory') %> <%- include('layouts/footer') %>
   <script src="/js/editCategory.js"></script>

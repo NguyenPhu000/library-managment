@@ -1,12 +1,10 @@
 import bookService from "../services/bookService.js";
 import categoryService from "../services/categoryService.js";
 
-// ✅ Trang thêm sách (Chỉ Admin sử dụng)
 const getCreateBooks = (req, res) => {
   res.render("partials/createBook");
 };
 
-// ✅ Thêm sách (Admin: Render | React: JSON)
 const postCreateBooks = async (req, res) => {
   try {
     await bookService.createNewBooks(req);
@@ -30,7 +28,6 @@ const postCreateBooks = async (req, res) => {
   }
 };
 
-// ✅ Hiển thị danh sách sách (Admin: Render | React: JSON)
 const getDisplayBooks = async (req, res) => {
   try {
     let { criteria, query } = req.query;

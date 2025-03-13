@@ -126,9 +126,11 @@
                 </table>
             </div>
         </div>
+        <%- include('partials/pagination', { dataTable }) %>
     </div>
 </div>
-
+<!-- phantrangphantrang -->
+<script src="/js/pagination.js"></script> 
 <%- include('partials/editBook', { book: {}, categories: categories || [] }) %>
 <script src="/js/editBook.js"></script>
 <%- include('layouts/footer') %>
