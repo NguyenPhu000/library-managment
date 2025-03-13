@@ -85,10 +85,34 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="/books/update?id=<%= book.book_id %>" 
-                                           class="btn btn-outline-primary btn-sm">Edit</a>
-                                        <button class="btn btn-outline-danger btn-sm" 
-                                                onclick="confirmDelete('<%= book.book_id %>')">Delete</button>
+                                        <button
+                                        type="button"
+                                        class="btn btn-outline-primary btn-sm edit-book-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editBookModal"
+                                        data-id="<%= book.book_id || '' %>"
+                                        data-title="<%= book.title || '' %>"
+                                        data-author="<%= book.author || '' %>"
+                                        data-isbn="<%= book.isbn || '' %>"
+                                        data-year="<%= book.publication_year || '' %>"
+                                        data-publisher="<%= book.publisher || '' %>"
+                                        data-total="<%= book.total_copies || '' %>"
+                                        data-available="<%= book.available_copies || '' %>"
+                                        data-status="<%= book.status || '' %>"
+                                        data-cover="<%= book.cover_image ? book.cover_image.replace(/['"]/g, '') : '' %>"
+                                        data-categories='<%= JSON.stringify(book.categories ? book.categories.map(cat => cat.category_id) : []) %>'
+                                      >
+                                        Edit
+                                      </button>
+                                      
+
+                                   
+                                    <button
+                                    class="btn btn-outline-danger btn-sm"
+                                    onclick="confirmDelete('<%= book.book_id %>')"
+                                  >
+                                    Delete
+                                  </button>
                                     </div>
                                 </td>
                             </tr>
@@ -106,12 +130,8 @@
 </div>
 
 <%- include('partials/editBook', { book: {}, categories: categories || [] }) %>
+<script src="/js/editBook.js"></script>
 <%- include('layouts/footer') %>
 
-<!-- Bootstrap JS Bundle & jQuery -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/js/editBook.js"></script>
 
-</body>
-</html>
+

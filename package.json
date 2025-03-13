@@ -19,6 +19,7 @@
     "bcryptjs": "^3.0.2",
     "body-parser": "^1.20.3",
     "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
@@ -32,6 +33,7 @@
     "@babel/core": "^7.26.9",
     "@babel/node": "^7.26.0",
     "@babel/preset-env": "^7.26.9",
+    "@ljharb/tsconfig": "^0.3.2",
     "nodemon": "^3.1.9",
     "sequelize-cli": "^6.6.2"
   }

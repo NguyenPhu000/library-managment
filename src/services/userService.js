@@ -68,6 +68,7 @@ let updateUserData = async (data) => {
 
 let deleteUserById = async (id) => {
   try {
+    console.log("📥 Nhận yêu cầu xóa user với ID:", id);
     const user = await db.User.findOne({ where: { user_id: id } });
     if (!user) throw new Error("User not found");
 

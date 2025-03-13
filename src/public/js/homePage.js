@@ -6,10 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
         this.getAttribute("data-bs-target")
       );
 
-      // Nếu dropdown đang mở, thì đóng lại
       let isOpen = targetMenu.classList.contains("show");
 
-      // Đóng tất cả dropdown khác (trừ dropdown hiện tại)
       document.querySelectorAll(".collapse.show").forEach((openMenu) => {
         if (openMenu !== targetMenu) {
           openMenu.classList.remove("show");
@@ -20,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-      // Nếu đang mở -> đóng lại, nếu đang đóng -> mở ra
       if (isOpen) {
         targetMenu.classList.remove("show");
         this.setAttribute("aria-expanded", "false");
@@ -34,21 +31,18 @@ document.addEventListener("DOMContentLoaded", function () {
       toggle.getAttribute("data-bs-target")
     );
     if (targetMenu) {
-      // 🔥 Chặn Bootstrap tự động đóng menu khi click vào mục con
       targetMenu.addEventListener("click", function (e) {
-        e.stopPropagation(); // Ngăn chặn sự kiện lan ra ngoài
+        e.stopPropagation();
       });
 
-      // 🔥 Ngăn Bootstrap đóng menu khi click vào bất kỳ mục con nào
       targetMenu.querySelectorAll("a").forEach((submenuItem) => {
         submenuItem.addEventListener("click", function (e) {
-          e.stopPropagation(); // Không đóng dropdown khi click vào mục con
+          e.stopPropagation();
         });
       });
     }
   });
 
-  // 🔥 Fix lỗi Bootstrap tự động đóng menu
   document.addEventListener("click", function (e) {
     let isInsideDropdown = e.target.closest(".collapse.show");
     let isDropdownToggle = e.target.closest(".nav-link.dropdown-toggle");
