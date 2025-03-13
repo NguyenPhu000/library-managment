@@ -5,10 +5,13 @@ import initWebRoutes from "./routes/webRoutes";
 import connectDB from "./config/connectDB";
 import sessionConfig from "./config/sessionConfig";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
+// Connect frontend
+app.use(cors());
 
 // Connect to the database
 connectDB();

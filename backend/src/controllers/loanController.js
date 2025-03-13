@@ -1,22 +1,29 @@
-import loanService from "../services/loanService";
+import loanService from "../services/loanService.js";
 
-let getAllLoans = async (req, res) => {
+const getAllLoans = async (req, res) => {
   try {
     let loans = await loanService.getAllLoans();
 
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json(loans);
+    }
+
     res.render("loanPage", { dataTable: loans });
   } catch (error) {
-    res.status(500).send("Lỗi khi lấy danh sách mượn sách: " + error.message);
+    res
+      .status(500)
+      .json({ lỗi: "Không thể lấy danh sách mượn sách", error: error.message });
   }
 };
 
-let borrowBook = async (req, res) => {
+const borrowBook = async (req, res) => {
   try {
     let result = await loanService.borrowBook(req.body);
 
     if (!result.success) {
       return res.status(400).json({ message: result.message });
     }
+
     res
       .status(201)
       .json({ message: "Mượn sách thành công!", loan: result.loan });
@@ -27,7 +34,7 @@ let borrowBook = async (req, res) => {
   }
 };
 
-let returnBook = async (req, res) => {
+const returnBook = async (req, res) => {
   try {
     let result = await loanService.returnBook(req.body.loan_id);
 
@@ -35,14 +42,14 @@ let returnBook = async (req, res) => {
       return res.status(400).json({ message: result.message });
     }
 
-    res.status(200).json({ message: result.message, fine_amount: result.fine_amount });
+    res
+      .status(200)
+      .json({ message: result.message, fine_amount: result.fine_amount });
   } catch (error) {
-    res.status(500).json({ message: "Lỗi khi trả sách!", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Lỗi khi trả sách!", error: error.message });
   }
 };
 
-export default {
-  getAllLoans,
-  borrowBook,
-  returnBook,
-};
+export default { getAllLoans, borrowBook, returnBook };

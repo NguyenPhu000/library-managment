@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import db from "../models/index.js";
-
+import { Op } from "sequelize";
 const salt = bcrypt.genSaltSync(10);
 
 let createNewUser = async (data) => {
@@ -68,6 +68,7 @@ let updateUserData = async (data) => {
 
 let deleteUserById = async (id) => {
   try {
+    console.log("📥 Nhận yêu cầu xóa user với ID:", id);
     const user = await db.User.findOne({ where: { user_id: id } });
     if (!user) throw new Error("User not found");
 
@@ -91,6 +92,20 @@ let toggleActive = async (id) => {
     throw new Error("Error toggling user status: " + error.message);
   }
 };
+let searchUser = async (filters) => {
+  try {
+    let whereClause = {};
+
+    if (filters.criteria && filters.query) {
+      whereClause[filters.criteria] = { [Op.like]: `%${filters.query}%` };
+    }
+
+    let users = await db.User.findAll({ where: whereClause, raw: true });
+    return users;
+  } catch (error) {
+    throw new Error("Lỗi khi tìm kiếm người dùng: " + error.message);
+  }
+};
 
 export default {
   createNewUser,
@@ -99,4 +114,5 @@ export default {
   updateUserData,
   deleteUserById,
   toggleActive,
+  searchUser,
 };

@@ -1,9 +1,5 @@
 import db from "../models/index.js";
-import fs from "fs";
-import path from "path";
 import { Op } from "sequelize";
-
-const uploadPath = path.join(process.cwd(), "src", "public", "uploads");
 
 let getBookById = async (bookId) => {
   if (!bookId) throw new Error("Book ID is required!");
@@ -47,6 +43,9 @@ let createNewBooks = async (req) => {
 
 let updateBook = async (req) => {
   let bookId = req.body.book_id;
+  if (!bookId) {
+    throw new Error("Book ID is required!");
+  }
   const existingBook = await getBookById(bookId);
 
   let coverImage =

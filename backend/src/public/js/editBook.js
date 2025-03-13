@@ -1,109 +1,100 @@
-$(document).ready(function () {
-  // Khi mở modal chỉnh sửa sách
-  $("#editBookModal").on("show.bs.modal", function (event) {
-    var button = $(event.relatedTarget);
+// Lắng nghe sự kiện khi nhấn vào nút "Edit"
+document
+  .querySelectorAll('[data-bs-target="#editBookModal"]')
+  .forEach((button) => {
+    button.addEventListener("click", function () {
+      // ✅ Gán giá trị từ dataset của button vào modal
+      document.getElementById("edit_book_id").value = this.dataset.id || "";
+      document.getElementById("edit_isbn").value = this.dataset.isbn || "";
+      document.getElementById("edit_title").value = this.dataset.title || "";
+      document.getElementById("edit_author").value = this.dataset.author || "";
+      document.getElementById("edit_publication_year").value =
+        this.dataset.year || "";
+      document.getElementById("edit_publisher").value =
+        this.dataset.publisher || "";
+      document.getElementById("edit_total_copies").value =
+        this.dataset.total || "";
+      document.getElementById("edit_available_copies").value =
+        this.dataset.available || "";
+      document.getElementById("edit_status").value = this.dataset.status || "";
 
-    // Lấy dữ liệu từ data-attributes trong nút "Edit"
-    var bookId = button.data("id");
-    var isbn = button.data("isbn");
-    var title = button.data("title");
-    var author = button.data("author");
-    var year = button.data("year");
-    var publisher = button.data("publisher");
-    var total = button.data("total");
-    var available = button.data("available");
-    var status = button.data("status");
-    var cover = button.data("cover");
-    var categories = button.data("categories");
+      // ✅ Xử lý danh mục sách (categories)
+      let selectedCategories = JSON.parse(this.dataset.categories || "[]");
+      let categorySelect = document.querySelectorAll(
+        "select[name='category_id'] option"
+      );
+      categorySelect.forEach((option) => {
+        option.selected = selectedCategories.includes(parseInt(option.value));
+      });
 
-    // Chuyển đổi dữ liệu danh mục từ chuỗi JSON hoặc chuỗi số sang mảng số
-    if (typeof categories === "string") {
-      try {
-        categories = JSON.parse(categories);
-      } catch (error) {
-        categories = categories.split(",").map(Number);
+      // ✅ Xử lý ảnh bìa
+      let coverImage = this.dataset.cover || "";
+      let imagePreview = document.getElementById("edit_image_preview");
+      let currentCoverInput = document.getElementById("current_cover");
+
+      if (coverImage) {
+        imagePreview.src = `/uploads/${coverImage}`;
+        imagePreview.style.display = "block";
+        currentCoverInput.value = coverImage;
+      } else {
+        imagePreview.style.display = "none";
+        currentCoverInput.value = "";
       }
-    }
-    if (!Array.isArray(categories)) categories = [];
-
-    // Điền thông tin vào modal
-    var modal = $(this);
-    modal.find("#edit_book_id").val(bookId);
-    modal.find("#edit_isbn").val(isbn);
-    modal.find("#edit_title").val(title);
-    modal.find("#edit_author").val(author);
-    modal.find("#edit_publication_year").val(year);
-    modal.find("#edit_publisher").val(publisher);
-    modal.find("#edit_total_copies").val(total);
-    modal.find("#edit_available_copies").val(available);
-    modal.find("#edit_status").val(status);
-
-    // Điền danh mục sách vào select multiple
-    modal.find("#edit_categories option").each(function () {
-      let categoryId = parseInt($(this).val());
-      $(this).prop("selected", categories.includes(categoryId));
     });
-
-    // Kiểm tra nếu có ảnh thì hiển thị, không có thì ẩn
-    if (cover) {
-      modal
-        .find("#edit_image_preview")
-        .attr("src", "/uploads/" + cover)
-        .show();
-      modal.find("#current_cover").val(cover); // Lưu ảnh hiện tại
-    } else {
-      modal.find("#edit_image_preview").hide();
-      modal.find("#current_cover").val(""); // Không có ảnh thì để rỗng
-    }
   });
 
-  // Hiển thị ảnh xem trước ngay khi chọn file mới
-  $("#edit_cover_image").change(function () {
-    var input = this;
+// 🖼 Hiển thị ảnh xem trước ngay khi chọn file mới
+document
+  .getElementById("edit_cover_image")
+  .addEventListener("change", function () {
+    let input = this;
     if (input.files && input.files[0]) {
-      var reader = new FileReader();
+      let reader = new FileReader();
       reader.onload = function (e) {
-        $("#edit_image_preview").attr("src", e.target.result).show();
+        document.getElementById("edit_image_preview").src = e.target.result;
+        document.getElementById("edit_image_preview").style.display = "block";
       };
       reader.readAsDataURL(input.files[0]);
     }
   });
 
-  // Xử lý cập nhật sách bằng Ajax
-  $("#editBookForm").on("submit", function (e) {
+// 📌 Xử lý cập nhật sách bằng Fetch API
+document
+  .getElementById("editBookForm")
+  .addEventListener("submit", function (e) {
     e.preventDefault();
-    var formData = new FormData(this);
 
-    // Nếu không có ảnh mới, giữ nguyên ảnh cũ
+    let formData = new FormData(this);
+
+    // ✅ Nếu không có ảnh mới, giữ nguyên ảnh cũ
     if (
       !formData.get("cover_image") ||
       formData.get("cover_image").size === 0
     ) {
-      formData.set("cover_image", $("#current_cover").val());
+      formData.set(
+        "cover_image",
+        document.getElementById("current_cover").value
+      );
     }
 
-    $.ajax({
-      url: "/books/update",
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-        alert("Sách đã được cập nhật thành công!");
-        $("#editBookModal").modal("hide");
+    fetch("/books/update", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("✅ Sách đã được cập nhật thành công!");
+        document.getElementById("editBookModal").classList.remove("show");
         location.reload();
-      },
-      error: function (err) {
-        alert("Lỗi khi cập nhật sách. Vui lòng kiểm tra lại.");
-        console.log(err.responseText);
-      },
-    });
+      })
+      .catch((error) => {
+        alert("❌ Lỗi khi cập nhật sách. Vui lòng kiểm tra lại.");
+        console.error(error);
+      });
   });
 
-  // Xác nhận xóa sách
-  window.confirmDelete = function (bookId) {
-    if (confirm("Bạn có chắc chắn muốn xóa sách này không?")) {
-      window.location.href = "/books/delete?id=" + bookId;
-    }
-  };
-});
+function confirmDelete(BookId) {
+  if (confirm("Bạn có chắc chắn muốn xóa danh mục này không?")) {
+    window.location.href = "/books/delete?id=" + BookId;
+  }
+}
