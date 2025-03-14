@@ -36,7 +36,11 @@ const postCreateUser = async (req, res) => {
       return res.json({ message: "Thêm người dùng thành công" });
     }
 
-    res.render("userPage", { dataTable: data });
+    res.render("userPage", {
+      dataTable: data,
+      criteria: req.query.criteria || "",
+      query: req.query.query || "",
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).send("Lỗi khi tạo người dùng.");
@@ -52,7 +56,11 @@ const updateUser = async (req, res) => {
       return res.json({ message: "Cập nhật người dùng thành công" });
     }
 
-    res.render("userPage", { dataTable: updatedData });
+    res.render("userPage", {
+      dataTable: updatedData,
+      criteria: req.query.criteria || "",
+      query: req.query.query || "",
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -69,7 +77,11 @@ const deleteUser = async (req, res) => {
       return res.json({ message: "Xóa người dùng thành công" });
     }
 
-    res.render("userPage", { dataTable: data });
+    res.render("userPage", {
+      dataTable: data,
+      criteria: req.query.criteria || "",
+      query: req.query.query || "",
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -86,7 +98,12 @@ const toggleActive = async (req, res) => {
       return res.json({ message: "Cập nhật trạng thái thành công" });
     }
 
-    res.render("userPage", { dataTable: users, currentPage: "users" });
+    res.render("userPage", {
+      dataTable: users,
+      currentPage: "users",
+      criteria: req.query.criteria || "",
+      query: req.query.query || "",
+    });
   } catch (error) {
     console.error("Lỗi khi cập nhật trạng thái:", error);
     res.status(500).send(error.message);

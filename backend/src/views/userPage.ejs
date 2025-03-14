@@ -12,7 +12,7 @@
       </div>
 
       <!-- 🔍 Form tìm kiếm User -->
-      <form action="/users" method="GET" class="row g-2 mb-3">
+      <form action="/api/users" method="GET" class="row g-2 mb-3">
         <div class="col-md-3">
           <select name="criteria" class="form-select">
             <option value="username" <%= criteria === 'username' ? 'selected' : '' %>>Tìm theo Username</option>
@@ -66,7 +66,7 @@
                     <td><%= user.phone %></td>
                     <td><%= user.address %></td>
                     <td class="text-center">
-                      <a href="/users/toggle-active?id=<%= user.user_id %>"
+                      <a href="/api/users/toggle-active?id=<%= user.user_id %>"
                         class="badge rounded-pill <%= user.is_active ? 'bg-success' : 'bg-danger' %>">
                         <%= user.is_active ? "On" : "Off" %>
                       </a>
@@ -100,8 +100,8 @@
           </table>
         </div>
       </div>
+      <%- include('partials/pagination', { dataTable }) %>
     </div>
-    <%- include('partials/pagination', { dataTable }) %>
   </div>
 
 </div>

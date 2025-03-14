@@ -32,6 +32,7 @@ let createNewBooks = async (req) => {
     available_copies: req.body.available_copies,
     status: req.body.status,
     category: req.body.category,
+    description: req.body.description,
     cover_image: req.file ? req.file.filename : null,
     category_id: Array.isArray(req.body.category_id)
       ? req.body.category_id
@@ -72,6 +73,7 @@ let updateBook = async (req) => {
     total_copies: req.body.total_copies,
     available_copies: req.body.available_copies,
     status: req.body.status,
+    description: req.body.description,
     cover_image: coverImage,
     category_id: categoryIds.length
       ? categoryIds

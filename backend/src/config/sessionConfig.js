@@ -6,9 +6,11 @@ const sessionConfig = (app) => {
     session({
       secret: process.env.SESSION_SECRET || "library_secret_key",
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         secure: false,
+        httpOnly: true,
+        sameSite: "lax",
         maxAge: 60 * 60 * 1000, //1h
       },
     })

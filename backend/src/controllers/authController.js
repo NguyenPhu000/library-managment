@@ -21,10 +21,17 @@ const login = async (req, res) => {
     req.session.user = result.user;
 
     if (req.headers.accept?.includes("application/json")) {
-      return res.json({ message: "Đăng nhập thành công!", user: result.user });
+      return res.json({
+        message: "Đăng nhập thành công!",
+        user: result.user,
+        redirectUrl:
+          result.user.role === "admin" ? "/api" : "http://localhost:5137/",
+      });
     }
 
-    res.redirect(result.user.role === "admin" ? "/" : "auth/thuvien");
+    res.redirect(
+      result.user.role === "admin" ? "/api" : "http://localhost:5137/"
+    );
   } catch (error) {
     console.error("Lỗi controller login:", error.message);
     res.status(500).json({ lỗi: "Lỗi server, vui lòng thử lại!" });
@@ -40,15 +47,23 @@ const logout = async (req, res) => {
       return res.json({ message: "Đăng xuất thành công!" });
     }
 
-    res.redirect("/login");
+    res.redirect("/api/login");
   } catch (error) {
     console.error("Lỗi logout:", error.message);
     res.status(500).json({ lỗi: "Lỗi server khi đăng xuất!" });
   }
 };
 
+const getCurrentUser = async (req, res) => {
+  const result = await authService.getCurrentUser(req);
+  if (result.success) {
+    return res.json({ user: result.user });
+  }
+  return res.status(401).json({ error: result.error });
+};
 export default {
   showLogin,
   login,
   logout,
+  getCurrentUser,
 };

@@ -10,17 +10,17 @@ import loanRoutes from "./loanRoutes.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 let router = express.Router();
 
-router.use("/", authRoutes);
+router.use("/api", authRoutes);
 
 // router.use(authMiddleware);
 
-router.use("/", homeRoutes);
-router.use("/", userRoutes);
-router.use("/", bookRoutes);
-router.use("/", categoryRoutes);
-router.use("/", adminRoutes);
-router.use("/", memberRoutes);
-router.use("/", loanRoutes);
+router.use("/api", homeRoutes);
+router.use("/api", userRoutes);
+router.use("/api", bookRoutes);
+router.use("/api", categoryRoutes);
+router.use("/api", adminRoutes);
+router.use("/api", memberRoutes);
+router.use("/api", loanRoutes);
 
 const initWebRoutes = (app) => {
   app.use("/", router);

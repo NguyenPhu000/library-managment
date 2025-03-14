@@ -18,7 +18,6 @@ document
         this.dataset.available || "";
       document.getElementById("edit_status").value = this.dataset.status || "";
 
-      // ✅ Xử lý danh mục sách (categories)
       let selectedCategories = JSON.parse(this.dataset.categories || "[]");
       let categorySelect = document.querySelectorAll(
         "select[name='category_id'] option"
@@ -26,6 +25,14 @@ document
       categorySelect.forEach((option) => {
         option.selected = selectedCategories.includes(parseInt(option.value));
       });
+
+      document.getElementById("edit_description").value = this.dataset
+        .description
+        ? this.dataset.description
+            .replace(/"/g, "&quot;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+        : "";
 
       // ✅ Xử lý ảnh bìa
       let coverImage = this.dataset.cover || "";
@@ -77,7 +84,7 @@ document
       );
     }
 
-    fetch("/books/update", {
+    fetch("/api/books/update", {
       method: "POST",
       body: formData,
     })
@@ -95,6 +102,6 @@ document
 
 function confirmDelete(BookId) {
   if (confirm("Bạn có chắc chắn muốn xóa danh mục này không?")) {
-    window.location.href = "/books/delete?id=" + BookId;
+    window.location.href = "/api/books/delete?id=" + BookId;
   }
 }

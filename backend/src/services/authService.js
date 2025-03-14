@@ -33,4 +33,10 @@ let logout = async (req) => {
   });
 };
 
-export default { login, logout };
+const getCurrentUser = async (req) => {
+  if (req.session.user) {
+    return { success: true, user: req.session.user };
+  }
+  return { success: false, error: "Chưa đăng nhập" };
+};
+export default { login, logout, getCurrentUser };

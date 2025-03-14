@@ -33,7 +33,7 @@
       </div>
       <div class="modal-body">
         <form
-          action="/books/create"
+          action="/api/books/create"
           method="POST"
           enctype="multipart/form-data"
         >
@@ -97,6 +97,20 @@
                   name="publisher"
                   placeholder="Nhập tên nhà xuất bản"
                 />
+              </div>
+              <!-- mota -->
+              <div class="mb-3">
+                <label for="description" class="form-label text-secondary"
+                  >Mô Tả</label
+                >
+                <textarea
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  placeholder="Nhập mô tả"
+                  rows="6"
+                  style="resize: vertical; min-height: 200px; width: 100%"
+                ></textarea>
               </div>
             </div>
             <!-- Cột bên phải -->

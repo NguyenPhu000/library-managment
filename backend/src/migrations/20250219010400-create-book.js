@@ -44,6 +44,10 @@ module.exports = {
         type: Sequelize.STRING(100),
         defaultValue: "AVAILABLE",
       },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
       cover_image: {
         type: Sequelize.JSON,
         allowNull: true,

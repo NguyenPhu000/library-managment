@@ -32,7 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       total_copies: DataTypes.INTEGER,
       available_copies: DataTypes.INTEGER,
       status: DataTypes.STRING,
-
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
       cover_image: {
         type: DataTypes.JSON,
         allowNull: true,
@@ -45,7 +48,8 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "Book",
       tableName: "Books",
-      timestamps: false,
+      timestamps: true,
+      underscored: true,
     }
   );
   return Book;

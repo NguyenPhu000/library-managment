@@ -38,7 +38,7 @@
           </td>
           <td>
             <% if (!loan.returned) { %>
-            <form action="/loans/return" method="POST">
+            <form action="/api/loans/return" method="POST">
               <input type="hidden" name="loan_id" value="<%= loan.loan_id %>" />
               <button type="submit" class="btn btn-sm btn-danger">
                 Trả sách
