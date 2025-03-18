@@ -52,4 +52,66 @@ const returnBook = async (req, res) => {
   }
 };
 
-export default { getAllLoans, borrowBook, returnBook };
+const requestRenewLoan = async (req, res) => {
+  try {
+    let result = await loanService.requestRenewLoan(req.body.loan_id);
+
+    if (!result.success) {
+      return res.status(400).json({ message: result.message });
+    }
+
+    res.status(200).json({ message: result.message });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Lỗi khi yêu cầu gia hạn!", error: error.message });
+  }
+};
+
+const approveRenewLoan = async (req, res) => {
+  try {
+    const { loan_id, action } = req.body; // action = "approve" hoặc "reject"
+    let result = await loanService.approveRenewLoan(
+      loan_id,
+      action === "approve"
+    );
+
+    if (!result.success) {
+      return res.status(400).json({ message: result.message });
+    }
+
+    res.status(200).json({ message: result.message });
+  } catch (error) {
+    res.status(500).json({
+      message: "Lỗi khi xử lý yêu cầu gia hạn!",
+      error: error.message,
+    });
+  }
+};
+const getLoanByBookId = async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    let result = await loanService.getLoanByBookId(bookId);
+
+    if (!result.success) {
+      return res.status(404).json({ message: result.message });
+    }
+
+    res.status(200).json(result.loan);
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        message: "Lỗi khi lấy thông tin mượn sách!",
+        error: error.message,
+      });
+  }
+};
+export default {
+  getAllLoans,
+  borrowBook,
+  returnBook,
+  requestRenewLoan,
+  approveRenewLoan,
+  getLoanByBookId,
+};

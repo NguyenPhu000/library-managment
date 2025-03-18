@@ -1,15 +1,15 @@
 import { AuthProvider } from "./AuthContext";
 import { CategoryProvider } from "./CategoryContext";
 import { BookProvider } from "./BookContext";
-// import { UserProvider } from "./UserContext"; // Ví dụ có thêm UserContext
-// import { ThemeProvider } from "./ThemeContext"; // Ví dụ có thêm ThemeContext
-
+import { MemberProvider } from "./MemberContext";
 const AppProviders = ({ children }) => {
   return (
     <AuthProvider>
-      <BookProvider>
-        <CategoryProvider>{children}</CategoryProvider>
-      </BookProvider>
+      <MemberProvider>
+        <BookProvider>
+          <CategoryProvider>{children}</CategoryProvider>
+        </BookProvider>
+      </MemberProvider>
     </AuthProvider>
   );
 };

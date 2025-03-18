@@ -2,21 +2,56 @@ import { createContext, useContext, useState, useEffect } from "react";
 import authService from "../services/authService";
 
 const AuthContext = createContext();
-// Khi chuyển san react thì tự động gọi /api/me để kt in4 user
-// đã login thi set
-//  chưa thì = null
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(undefined);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    authService
-      .getCurrentUser()
-      .then((data) => setUser(data))
-      .catch(() => setUser(null));
+    checkAuth();
   }, []);
 
+  const checkAuth = async () => {
+    try {
+      const userData = await authService.getCurrentUser();
+      setUser(userData);
+    } catch (error) {
+      setError(error.message);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const login = async (username, password) => {
+    try {
+      const result = await authService.login(username, password);
+      if (result.success) {
+        setUser(result.user);
+        window.location.href = result.redirectUrl;
+      }
+      return result;
+    } catch (error) {
+      setError(error.message);
+      throw error;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await authService.logout();
+      setUser(null);
+    } catch (error) {
+      setError(error.message);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, loading, error, login, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

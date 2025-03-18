@@ -2,17 +2,29 @@ import { Navigate, useLocation, Outlet } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const RequireAuth = () => {
-  const { user } = useAuth();
+  const { user, loading, error } = useAuth();
   const location = useLocation();
 
-  if (user === undefined) {
-    return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Đang tải...</div>
+      </div>
+    );
   }
 
-  if (user === null) {
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
+
+  if (!user) {
     return (
       <Navigate
-        to="http://localhost:8081/api/login"
+        to={`${import.meta.env.VITE_API_URL}/login`}
         replace
         state={{ from: location }}
       />

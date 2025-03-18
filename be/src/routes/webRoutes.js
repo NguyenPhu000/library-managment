@@ -12,7 +12,7 @@ let router = express.Router();
 
 router.use("/api", authRoutes);
 
-// router.use(authMiddleware);
+router.use(authMiddleware);
 
 router.use("/api", homeRoutes);
 router.use("/api", userRoutes);

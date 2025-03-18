@@ -1,42 +1,67 @@
 import bcrypt from "bcryptjs";
 import { User } from "../models";
 
-let login = async (username, password) => {
+const login = async (username, password) => {
   try {
-    let user = await User.findOne({ where: { username } });
+    const user = await User.findOne({
+      where: {
+        username,
+        is_active: true, // kiểm tra user active
+      },
+    });
 
     if (!user) {
-      return { success: false, message: "Tài khoản không tồn tại!" };
+      return {
+        success: false,
+        message: "Tài khoản không tồn tại hoặc đã bị khóa!",
+      };
     }
 
-    const isMatch = bcrypt.compareSync(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return { success: false, message: "Mật khẩu không chính xác!" };
+      return {
+        success: false,
+        message: "Mật khẩu không chính xác!",
+      };
     }
 
-    return {
-      success: true,
-      user: { user_id: user.user_id, username: user.username, role: user.role },
-    };
+    // Trả về toàn bộ đối tượng user
+    return { success: true, user };
   } catch (error) {
-    console.error("Lỗi Đăng Nhập:", error.message);
-    return { success: false, message: "Đã xảy ra lỗi, vui lòng thử lại!" };
+    console.error("Lỗi đăng nhập:", error);
+    return { success: false, message: "Lỗi hệ thống!" };
   }
 };
 
-let logout = async (req) => {
-  return new Promise((resolve, reject) => {
-    req.session.destroy((error) => {
-      if (error) reject("Lỗi đăng xuất!!!");
-      resolve("Đăng xuất thành công!!!");
+const logout = async (req) => {
+  return new Promise((resolve) => {
+    req.session.destroy(() => {
+      resolve({ success: true, message: "Đăng xuất thành công!" });
     });
   });
 };
 
 const getCurrentUser = async (req) => {
-  if (req.session.user) {
-    return { success: true, user: req.session.user };
+  if (!req.session?.user) {
+    return { success: false, message: "Chưa đăng nhập" };
   }
-  return { success: false, error: "Chưa đăng nhập" };
+
+  // Kiểm tra user còn tồn tại và active không
+  const user = await User.findOne({
+    where: {
+      user_id: req.session.user.user_id,
+      is_active: true,
+    },
+  });
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Tài khoản không tồn tại hoặc đã bị khóa",
+    };
+  }
+
+  return { success: true, user: req.session.user };
 };
+
 export default { login, logout, getCurrentUser };

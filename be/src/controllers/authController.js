@@ -1,66 +1,83 @@
 import authService from "../services/authService.js";
 
-// ✅ Hiển thị trang login (Chỉ Admin sử dụng)
 const showLogin = async (req, res) => {
   res.render("auth/login", { errorMessage: null });
 };
 
-// ✅ Xử lý đăng nhập (Admin: Redirect | React: JSON)
 const login = async (req, res) => {
   try {
-    let { username, password } = req.body;
-    let result = await authService.login(username, password);
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      const message = "Vui lòng nhập đầy đủ thông tin!";
+      return req.headers.accept?.includes("application/json")
+        ? res.status(400).json({ success: false, message })
+        : res.render("auth/login", { errorMessage: message });
+    }
+
+    const result = await authService.login(username, password);
 
     if (!result.success) {
-      if (req.headers.accept?.includes("application/json")) {
-        return res.status(401).json({ lỗi: result.message });
-      }
-      return res.render("auth/login", { errorMessage: result.message });
+      return req.headers.accept?.includes("application/json")
+        ? res.status(401).json({ success: false, message: result.message })
+        : res.render("auth/login", { errorMessage: result.message });
     }
 
+    // Lưu session
     req.session.user = result.user;
 
-    if (req.headers.accept?.includes("application/json")) {
-      return res.json({
-        message: "Đăng nhập thành công!",
-        user: result.user,
-        redirectUrl:
-          result.user.role === "admin" ? "/api" : "http://localhost:5137/",
-      });
-    }
+    const redirectUrl =
+      result.user.role === "admin" ? "/api" : process.env.FRONTEND_URL;
 
-    res.redirect(
-      result.user.role === "admin" ? "/api" : "http://localhost:5137/"
-    );
+    return req.headers.accept?.includes("application/json")
+      ? res.json({
+          success: true,
+          message: "Đăng nhập thành công!",
+          user: result.user,
+          redirectUrl,
+        })
+      : res.redirect(redirectUrl);
   } catch (error) {
-    console.error("Lỗi controller login:", error.message);
-    res.status(500).json({ lỗi: "Lỗi server, vui lòng thử lại!" });
+    console.error("Lỗi login:", error);
+    const message = "Lỗi hệ thống!";
+    return req.headers.accept?.includes("application/json")
+      ? res.status(500).json({ success: false, message })
+      : res.render("auth/login", { errorMessage: message });
   }
 };
 
-// ✅ Xử lý logout (Admin: Redirect | React: JSON)
+//
 const logout = async (req, res) => {
   try {
-    await authService.logout(req);
+    const result = await authService.logout(req);
 
-    if (req.headers.accept?.includes("application/json")) {
-      return res.json({ message: "Đăng xuất thành công!" });
-    }
-
-    res.redirect("/api/login");
+    return req.headers.accept?.includes("application/json")
+      ? res.json(result)
+      : res.redirect("/api/login");
   } catch (error) {
-    console.error("Lỗi logout:", error.message);
-    res.status(500).json({ lỗi: "Lỗi server khi đăng xuất!" });
+    console.error("Lỗi logout:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi khi đăng xuất!",
+    });
   }
 };
 
 const getCurrentUser = async (req, res) => {
-  const result = await authService.getCurrentUser(req);
-  if (result.success) {
-    return res.json({ user: result.user });
+  try {
+    const result = await authService.getCurrentUser(req);
+    return result.success
+      ? res.json({ success: true, user: result.user })
+      : res.status(401).json({ success: false, message: result.message });
+  } catch (error) {
+    console.error("Lỗi get current user:", error);
+    res.status(500).json({
+      success: false,
+      message: "Lỗi hệ thống!",
+    });
   }
-  return res.status(401).json({ error: result.error });
 };
+
 export default {
   showLogin,
   login,

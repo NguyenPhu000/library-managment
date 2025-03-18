@@ -11,23 +11,23 @@
       <div
         class="card-header d-flex justify-content-between align-items-center bg-dark text-white"
       >
-        <h2>Member Management</h2>
+        <h2>Quản lý thành viên</h2>
         <!-- Nút đồng bộ Admin -->
-        <a href="/api/members/sync" class="btn btn-light">Đồng bộ Member</a>
+        <a href="/api/members/sync" class="btn btn-light">Đồng bộ thành viên</a>
       </div>
       <div class="card-body">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover">
           <thead class="table-dark">
             <tr>
-              <th>No.</th>
-              <th>Username</th>
-              <th>Member Code</th>
-              <th>Join Date</th>
-              <th>Expiry Date</th>
-              <th>Max Loans</th>
-              <th>Current Loans</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>STT</th>
+              <th>Tên đăng nhập</th>
+              <th>Mã thành viên</th>
+              <th>Ngày tham gia</th>
+              <th>Ngày hết hạn</th>
+              <th>Số sách tối đa</th>
+              <th>Đang mượn</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -55,7 +55,7 @@
                   data-current_loans="<%= member.current_loans %>"
                   data-status="<%= member.status %>"
                 >
-                  Edit
+                  Chỉnh sửa
                 </button>
               </td>
             </tr>
@@ -67,8 +67,13 @@
     </div>
   </div>
 </div>
+
+<!-- Scripts -->
 <script src="/js/pagination.js"></script>
-<script src="../js/memberPage.js"></script>
+<script src="/js/memberPage.js"></script>
+
+<!-- Modals -->
 <%- include('partials/editMember') %>
-<!--  -->
+
+<!-- Footer -->
 <%- include('layouts/footer') %>

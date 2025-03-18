@@ -28,6 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       return_date: DataTypes.DATE,
       returned: DataTypes.BOOLEAN,
       fine_amount: DataTypes.DECIMAL,
+      renew_count: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      renewal_status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "none",
+      },
     },
     {
       sequelize,

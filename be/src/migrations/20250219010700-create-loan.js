@@ -38,6 +38,16 @@ module.exports = {
         type: Sequelize.DECIMAL(10, 2),
         defaultValue: 0,
       },
+      renew_count: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      },
+      renewal_status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "none", // none, pending, approved, rejected
+      },
     });
 
     // Thêm FK

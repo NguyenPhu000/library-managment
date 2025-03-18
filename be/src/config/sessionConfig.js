@@ -11,7 +11,7 @@ const sessionConfig = (app) => {
         secure: false,
         httpOnly: true,
         sameSite: "lax",
-        maxAge: 60 * 60 * 1000, //1h
+        maxAge: 24 * 60 * 60 * 1000, //  24h
       },
     })
   );
@@ -20,6 +20,7 @@ const sessionConfig = (app) => {
   app.use((req, res, next) => {
     res.locals.success_msg = req.flash("success_msg");
     res.locals.error_msg = req.flash("error_msg");
+    res.locals.user = req.session.user || null;
     next();
   });
 };

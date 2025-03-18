@@ -18,6 +18,7 @@
           <th>Ngày mượn</th>
           <th>Hạn trả</th>
           <th>Trạng thái</th>
+          <th>Gia hạn</th>
           <th>Thao tác</th>
         </tr>
       </thead>
@@ -36,15 +37,56 @@
             <span class="badge bg-warning">Đang mượn</span>
             <% } %>
           </td>
+
+          <!-- Cột Trạng thái Gia Hạn -->
+          <td>
+            <% if (loan.renewal_status === "pending") { %>
+            <span class="badge bg-info text-dark">Chờ duyệt</span>
+            <% } else if (loan.renewal_status === "approved") { %>
+            <span class="badge bg-success">Đã duyệt</span>
+            <% } else if (loan.renewal_status === "rejected") { %>
+            <span class="badge bg-danger">Từ chối</span>
+            <% } else { %>
+            <span class="badge bg-secondary">Không yêu cầu</span>
+            <% } %>
+          </td>
+
+          <!-- Cột Thao Tác -->
           <td>
             <% if (!loan.returned) { %>
-            <form action="/api/loans/return" method="POST">
+            <form action="/api/loans/return" method="POST" class="d-inline">
               <input type="hidden" name="loan_id" value="<%= loan.loan_id %>" />
               <button type="submit" class="btn btn-sm btn-danger">
                 Trả sách
               </button>
             </form>
-            <% } else { %>
+
+            <!-- Chỉ hiện khi yêu cầu đang chờ duyệt -->
+            <% if (loan.renewal_status === "pending") { %>
+            <form
+              action="/api/loans/approve-renew"
+              method="POST"
+              class="d-inline"
+            >
+              <input type="hidden" name="loan_id" value="<%= loan.loan_id %>" />
+              <input type="hidden" name="action" value="approve" />
+              <button type="submit" class="btn btn-sm btn-success">
+                ✅ Duyệt
+              </button>
+            </form>
+
+            <form
+              action="/api/loans/approve-renew"
+              method="POST"
+              class="d-inline"
+            >
+              <input type="hidden" name="loan_id" value="<%= loan.loan_id %>" />
+              <input type="hidden" name="action" value="reject" />
+              <button type="submit" class="btn btn-sm btn-warning">
+                ❌ Từ chối
+              </button>
+            </form>
+            <% } %> <% } else { %>
             <span class="text-muted">-</span>
             <% } %>
           </td>
@@ -55,6 +97,8 @@
     <%- include('partials/pagination', { dataTable }) %>
   </div>
 </div>
+
 <script src="/js/pagination.js"></script>
+
 <!-- Footer -->
 <%- include('layouts/footer') %>

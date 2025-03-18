@@ -2,64 +2,108 @@ import memberService from "../services/memberService.js";
 
 const getDisplayMember = async (req, res) => {
   try {
-    let data = await memberService.getAllMembers();
+    const result = await memberService.getAllMembers();
 
-    if (req.headers.accept?.includes("application/json")) {
-      return res.json(data);
+    if (!result.success) {
+      return res.status(400).json({ message: result.message });
     }
 
-    res.render("memberPage", { dataTable: data });
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json(result);
+    }
+    res.json(result);
+    // res.render("memberPage", { dataTable: result.members });
   } catch (error) {
-    res.status(500).json({ lỗi: error.message });
+    res.status(500).json({ message: "Lỗi server: " + error.message });
+  }
+};
+
+const getMemberByUserId = async (req, res) => {
+  try {
+    if (!req.params.userId) {
+      return res.status(400).json({ message: "Thiếu User ID" });
+    }
+
+    const result = await memberService.getMemberByUserId(req.params.userId);
+
+    if (!result.success) {
+      return res.status(404).json({ message: result.message });
+    }
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi server: " + error.message });
   }
 };
 
 const updateMember = async (req, res) => {
   try {
-    await memberService.updateMember(req.body);
-    let updatedData = await memberService.getAllMembers();
+    const updateResult = await memberService.updateMember(req.body);
 
-    if (req.headers.accept?.includes("application/json")) {
-      return res.json({ message: "Cập nhật thành công!" });
+    if (!updateResult.success) {
+      return res.status(400).json({ message: updateResult.message });
     }
 
-    res.render("memberPage", { dataTable: updatedData });
+    const result = await memberService.getAllMembers();
+
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json({ success: true, message: updateResult.message });
+    }
+
+    res.render("memberPage", { dataTable: result.members });
   } catch (error) {
-    res.status(500).json({ lỗi: error.message });
+    res.status(500).json({ message: "Lỗi server: " + error.message });
   }
 };
 
 const deleteMember = async (req, res) => {
   try {
-    if (!req.query.id)
-      return res.status(400).json({ lỗi: "Thiếu ID thành viên" });
-
-    await memberService.deleteMemberById(req.query.id);
-    const data = await memberService.getAllMembers();
-
-    if (req.headers.accept?.includes("application/json")) {
-      return res.json({ message: "Xóa thành công!" });
+    if (!req.query.id) {
+      return res.status(400).json({ message: "Thiếu ID thành viên" });
     }
 
-    res.render("memberPage", { dataTable: data });
+    const deleteResult = await memberService.deleteMemberById(req.query.id);
+
+    if (!deleteResult.success) {
+      return res.status(400).json({ message: deleteResult.message });
+    }
+
+    const result = await memberService.getAllMembers();
+
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json({ success: true, message: deleteResult.message });
+    }
+
+    res.render("memberPage", { dataTable: result.members });
   } catch (error) {
-    res.status(500).json({ lỗi: error.message });
+    res.status(500).json({ message: "Lỗi server: " + error.message });
   }
 };
 
 const syncMember = async (req, res) => {
   try {
-    await memberService.syncMembersFromUsers();
-    let data = await memberService.getAllMembers();
+    const syncResult = await memberService.syncMembersFromUsers();
 
-    if (req.headers.accept?.includes("application/json")) {
-      return res.json({ message: "Đồng bộ thành công!" });
+    if (!syncResult.success) {
+      return res.status(400).json({ message: syncResult.message });
     }
 
-    res.render("memberPage", { dataTable: data });
+    const result = await memberService.getAllMembers();
+
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json({ success: true, message: syncResult.message });
+    }
+
+    res.render("memberPage", { dataTable: result.members });
   } catch (error) {
-    res.status(500).json({ lỗi: error.message });
+    res.status(500).json({ message: "Lỗi server: " + error.message });
   }
 };
 
-export default { getDisplayMember, updateMember, deleteMember, syncMember };
+export default {
+  getDisplayMember,
+  getMemberByUserId,
+  updateMember,
+  deleteMember,
+  syncMember,
+};

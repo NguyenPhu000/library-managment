@@ -6,6 +6,14 @@ const getCreateUser = (req, res) => {
 
 const getDisplayUser = async (req, res) => {
   try {
+    // Thêm logic để lấy user hiện tại từ session/token
+    const userId = req.user?.id; // Giả sử có middleware xác thực
+    if (userId) {
+      const userData = await userService.getUserInfoById(userId);
+      if (req.headers.accept?.includes("application/json")) {
+        return res.json(userData);
+      }
+    }
     let { criteria, query } = req.query;
     let data =
       criteria && query

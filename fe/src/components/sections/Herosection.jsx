@@ -9,7 +9,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-32 px-6 flex flex-col lg:flex-row items-center justify-center overflow-hidden">
+    <section className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-40 px-6 flex flex-col lg:flex-row items-center justify-center overflow-hidden">
       {/* Nội dung chính */}
       <div className="relative z-10 max-w-3xl text-center lg:text-left">
         <h1

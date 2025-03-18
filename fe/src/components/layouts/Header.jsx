@@ -1,10 +1,11 @@
+import api from "../../services/api";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaSearch, FaUserCircle } from "react-icons/fa"; // Import icons
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const logoutUrl = `${import.meta.env.VITE_API_BASE_URL}/logout`;
   return (
     <header className="bg-black text-white py-5 px-8 flex items-center justify-between shadow-md sticky top-0 z-50">
       {/* Logo */}
@@ -70,9 +71,12 @@ const Header = () => {
               >
                 ⚙ Cài đặt
               </Link>
-              <button className="w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition duration-200">
+              <Link
+                to={logoutUrl}
+                className="w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition duration-200"
+              >
                 🚪 Đăng xuất
-              </button>
+              </Link>
             </div>
           )}
         </div>
