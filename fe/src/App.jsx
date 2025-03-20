@@ -4,8 +4,10 @@ import LibraryHome from "./pages/LibraryHomePage";
 import BookListPage from "./pages/BookListPage";
 import BookDetail from "./components/sections/BookDetail";
 import ProfilePage from "./pages/ProfilePage";
+import LoanPage from "./pages/LoanPage";
 import RequireAuth from "./components/ui/RequireAuth";
 import AppProviders from "./contexts/AppProviders";
+
 const App = () => {
   return (
     <AppProviders>
@@ -17,6 +19,7 @@ const App = () => {
             <Route path="/books/:slug" element={<BookDetail />} />
             <Route element={<RequireAuth />}>
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/borrowed" element={<LoanPage />} />
             </Route>
           </Route>
         </Routes>

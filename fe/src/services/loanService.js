@@ -1,49 +1,47 @@
 import API from "./api";
 
-// Lấy danh sách lượt mượn
-export const getAllLoans = async () => {
-  try {
-    const res = await API.get("/loans");
-    return res.data;
-  } catch (error) {
-    console.error("Lỗi lấy danh sách mượn:", error);
-    return [];
-  }
+const loanService = {
+  async getCurrentLoans(memberId) {
+    try {
+      const response = await API.get(`/loans/current/${memberId}`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("❌ Lỗi khi lấy danh sách loan:", error);
+      throw new Error("Không thể lấy danh sách sách mượn.");
+    }
+  },
+  async borrowBook(bookId, memberId) {
+    try {
+      const response = await API.post(
+        `/loans/borrow`,
+        { bookId, memberId },
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("❌ Lỗi khi mượn sách:", error);
+      throw new Error("Không thể mượn sách.");
+    }
+  },
+  async returnBook(loanId) {
+    try {
+      const response = await API.post(
+        `/loans/return`,
+        { loan_id: loanId },
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("❌ Lỗi khi trả sách:", error);
+      throw new Error("Không thể trả sách.");
+    }
+  },
 };
 
-// Mượn sách
-export const borrowBook = async (member_id, book_id) => {
-  try {
-    const res = await API.post("/loans/borrow", { member_id, book_id });
-    return res.data;
-  } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Lỗi!" };
-  }
-};
-
-// Trả sách
-export const returnBook = async (loan_id) => {
-  try {
-    const res = await API.post("/loans/return", { loan_id });
-    return res.data;
-  } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Lỗi!" };
-  }
-};
-
-// Yêu cầu gia hạn sách
-export const requestRenew = async (loan_id) => {
-  try {
-    const res = await API.post("/loans/request-renew", { loan_id });
-    return res.data;
-  } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Lỗi!" };
-  }
-};
-
-export default {
-  getAllLoans,
-  requestRenew,
-  returnBook,
-  borrowBook,
-};
+export default loanService;

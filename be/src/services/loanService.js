@@ -103,6 +103,53 @@ const returnBook = async (loan_id) => {
   }
 };
 
+const getLoanByBookId = async (bookId) => {
+  try {
+    const loan = await Loan.findOne({
+      where: { book_id: bookId, returned: false },
+      attributes: ["loan_id", "due_date", "renewal_status", "renew_count"],
+    });
+
+    if (!loan)
+      return { success: false, message: "Không tìm thấy thông tin mượn sách!" };
+
+    return { success: true, loan };
+  } catch (error) {
+    throw new Error("Lỗi khi lấy thông tin mượn sách: " + error.message);
+  }
+};
+
+// Lấy danh sách khoản vay hiện tại cho thành viên
+const getLoansByMemberId = async (member_id) => {
+  try {
+    const loans = await Loan.findAll({
+      where: { member_id, returned: false }, // Chỉ lấy sách chưa trả
+      include: [
+        { model: Book, attributes: ["title", "author"] }, // Lấy thông tin sách
+        { model: Member, attributes: ["member_code"] }, // Lấy mã thành viên
+      ],
+      attributes: [
+        "loan_id",
+        "loan_date",
+        "due_date",
+        "fine_amount",
+        "renew_count",
+        "renewal_status",
+      ],
+      order: [["loan_date", "DESC"]], // Sắp xếp theo ngày mượn mới nhất
+    });
+
+    return { success: true, loans };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Lỗi khi lấy danh sách loan!",
+      error: error.message,
+    };
+  }
+};
+
+//  Yêu cầu gia hạn sách
 const requestRenewLoan = async (loan_id) => {
   try {
     const loan = await Loan.findByPk(loan_id);
@@ -133,6 +180,7 @@ const requestRenewLoan = async (loan_id) => {
   }
 };
 
+//  Phê duyệt gia hạn sách
 const approveRenewLoan = async (loan_id, approve = true) => {
   try {
     const loan = await Loan.findByPk(loan_id);
@@ -163,26 +211,12 @@ const approveRenewLoan = async (loan_id, approve = true) => {
   }
 };
 
-const getLoanByBookId = async (bookId) => {
-  try {
-    const loan = await Loan.findOne({
-      where: { book_id: bookId, returned: false },
-      attributes: ["loan_id", "due_date", "renewal_status", "renew_count"],
-    });
-
-    if (!loan)
-      return { success: false, message: "Không tìm thấy thông tin mượn sách!" };
-
-    return { success: true, loan };
-  } catch (error) {
-    throw new Error("Lỗi khi lấy thông tin mượn sách: " + error.message);
-  }
-};
 export default {
   getAllLoans,
   borrowBook,
   returnBook,
+  getLoanByBookId,
+  getLoansByMemberId,
   requestRenewLoan,
   approveRenewLoan,
-  getLoanByBookId,
 };

@@ -9,11 +9,14 @@ const Header = () => {
   return (
     <header className="bg-black text-white py-5 px-8 flex items-center justify-between shadow-md sticky top-0 z-50">
       {/* Logo */}
-      <div className="text-3xl font-bold tracking-tight flex items-center space-x-2 hover:scale-105 transition-transform duration-300 cursor-pointer">
+      <Link
+        to="/"
+        className="text-3xl font-bold tracking-tight flex items-center space-x-2 hover:scale-105 transition-transform duration-300 cursor-pointer"
+      >
         <span className="text-lightGreen">Góc</span>
         <span className="text-white">Thư</span>
         <span className="text-lightGreen">Viện</span>
-      </div>
+      </Link>
 
       {/* Navigation */}
       <nav className="hidden md:flex space-x-8 text-lg font-medium">
@@ -58,24 +61,40 @@ const Header = () => {
 
           {/* Dropdown Menu */}
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-3 w-48 bg-gray-900 border-2 border-gray-700 rounded-lg shadow-lg py-2 z-10">
+            <div className="absolute right-0 mt-3 w-64 bg-gray-900 border-2 border-gray-700 rounded-lg shadow-lg py-2 z-10">
               <Link
                 to="/profile"
-                className="block px-4 py-2 text-white hover:bg-gray-800 transition duration-200"
+                className="flex justify-start items-center block px-4 py-2 text-white hover:text-gray-300 hover:bg-gray-800 transition duration-200"
               >
-                📜 Hồ sơ
+                <i className="fa-solid fa-id-card mr-2 text-gray-300"></i> Hồ sơ
               </Link>
               <Link
-                to="/settings"
-                className="block px-4 py-2 text-white hover:bg-gray-800 transition duration-200"
+                to="/borrowed"
+                className="flex justify-start items-center block px-4 py-2 text-white hover:text-lightGreen hover:bg-gray-800 transition duration-200"
               >
-                ⚙ Cài đặt
+                <i className="fa-solid fa-book mr-2 text-lightGreen"></i>
+                Sách đang mượn
+              </Link>
+              <Link
+                to="/history"
+                className="flex justify-start items-center block px-4 py-2 text-white hover:text-blue-500 hover:bg-gray-800 transition duration-200"
+              >
+                <i className="fa-solid fa-book-open mr-2 text-blue-500"></i>
+                Lịch sử Mượn
+              </Link>
+
+              <Link
+                to="/settings"
+                className="flex justify-start items-center block px-4 py-2 text-white hover:text-gray-400 hover:bg-gray-800 transition duration-200"
+              >
+                <i className="fa-solid fa-gear mr-2 text-gray-400"></i> Cài đặt
               </Link>
               <Link
                 to={logoutUrl}
-                className="w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition duration-200"
+                className="flex justify-start items-center w-full text-left px-4 py-2 text-white hover:text-red-500 hover:bg-gray-800 transition duration-200"
               >
-                🚪 Đăng xuất
+                <i className="fa-solid fa-sign-out-alt mr-2 text-red-500"></i>{" "}
+                Đăng xuất
               </Link>
             </div>
           )}

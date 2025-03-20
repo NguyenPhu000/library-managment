@@ -11,5 +11,5 @@ router.get("/members/delete", memberController.deleteMember);
 router.get("/members/sync", memberController.syncMember);
 
 router.get("/members/:userId", memberController.getMemberByUserId);
-
+router.get("/members/member-id/:userId", memberController.getMemberIdByUserId);
 export default router;

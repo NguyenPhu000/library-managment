@@ -6,7 +6,7 @@ const sessionConfig = (app) => {
     session({
       secret: process.env.SESSION_SECRET || "library_secret_key",
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
       cookie: {
         secure: false,
         httpOnly: true,

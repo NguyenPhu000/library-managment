@@ -29,12 +29,6 @@ const getMemberByUserId = async (userId) => {
           model: User,
           attributes: { exclude: ["password"] }, // Loại bỏ mật khẩu
         },
-        {
-          model: Loan,
-          as: "Loans", // Sửa thành chữ hoa để khớp với định nghĩa quan hệ
-          where: { returned: false }, // Chỉ lấy các loan chưa trả
-          required: false, // Cho phép trả về member ngay cả khi không có loan
-        },
       ],
     });
 
@@ -147,6 +141,21 @@ const deleteMemberById = async (member_id) => {
     return { success: false, message: "Lỗi xóa Member: " + error.message };
   }
 };
+// Lấy member_id từ user_id
+const getMemberIdByUserId = async (user_id) => {
+  try {
+    const member = await Member.findOne({ where: { user_id } });
+    if (!member) {
+      return { success: false, message: "Không tìm thấy Member" };
+    }
+    return { success: true, member_id: member.member_id };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Lỗi khi lấy member_id từ user_id: " + error.message,
+    };
+  }
+};
 
 export default {
   getAllMembers,
@@ -154,4 +163,5 @@ export default {
   updateMember,
   deleteMemberById,
   getMemberByUserId,
+  getMemberIdByUserId,
 };

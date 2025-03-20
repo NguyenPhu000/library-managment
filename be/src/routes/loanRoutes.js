@@ -14,5 +14,5 @@ router.post("/loans/request-renew", loanController.requestRenewLoan);
 
 router.post("/loans/approve-renew", loanController.approveRenewLoan);
 
-router.get("/loans/books/:bookId", loanController.getLoanByBookId);
+router.get("/loans/current/:memberId", loanController.getCurrentLoans);
 export default router;

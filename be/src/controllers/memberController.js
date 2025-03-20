@@ -11,8 +11,7 @@ const getDisplayMember = async (req, res) => {
     if (req.headers.accept?.includes("application/json")) {
       return res.json(result);
     }
-    res.json(result);
-    // res.render("memberPage", { dataTable: result.members });
+    res.render("memberPage", { dataTable: result.members });
   } catch (error) {
     res.status(500).json({ message: "Lỗi server: " + error.message });
   }
@@ -100,10 +99,25 @@ const syncMember = async (req, res) => {
   }
 };
 
+const getMemberIdByUserId = async (req, res) => {
+  if (!req.params.userId)
+    return res.status(400).json({ message: "Thiếu User ID" });
+
+  try {
+    const result = await memberService.getMemberIdByUserId(req.params.userId);
+    if (!result.success)
+      return res.status(404).json({ message: result.message });
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi server: " + error.message });
+  }
+};
+
 export default {
   getDisplayMember,
   getMemberByUserId,
   updateMember,
   deleteMember,
   syncMember,
+  getMemberIdByUserId,
 };

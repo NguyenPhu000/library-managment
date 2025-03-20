@@ -19,7 +19,6 @@ export const BookProvider = ({ children }) => {
     fetchBooks();
   }, []);
 
-  // ✅ Lọc theo category
   const filterByCategory = async (categoryId) => {
     setLoading(true);
     if (categoryId === "all") {
