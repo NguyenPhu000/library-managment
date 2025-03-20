@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+.sidebar {
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar ul li {
+  transition: background 0.3s ease-in-out;
+}
